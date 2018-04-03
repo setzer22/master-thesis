@@ -1,0 +1,43 @@
+\documentclass[10pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage[margin=1.5in]{geometry}
+\usepackage[style=english]{csquotes}
+\usepackage[pdftex, pdfborderstyle={/S/U/W 0}]{hyperref} % this disables the boxes around links
+\usepackage[]{import}
+\setlength{\parskip}{0.6em}
+\usepackage[style=numeric, sorting=nyt, backend=biber]{biblatex}
+\addbibresource{./refs.bib}
+\DeclareUnicodeCharacter{20AC}{\euro{}}
+
+\title{TFG - Memòria}
+\author{Josep Sànchez Ferreres}
+\date{April 2016}
+
+\begin{document}
+
+\cite{gurobi}
+
+\maketitle
+
+\tableofcontents
+
+\import{sections/}{cover.tex}
+
+\import{sections/}{abstract.tex}
+
+\import{sections/}{introduction.tex}
+
+\import{sections/}{background.tex}
+
+\import{sections/}{methodology.tex}
+
+\import{sections/}{approach.tex}
+
+\import{sections/}{evaluation.tex}
+
+\printbibliography[heading=bibliography]{}
+
+\end{document}

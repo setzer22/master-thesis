@@ -1,0 +1,10 @@
+auto
+*.bbl
+*.blg
+*.aux
+*.bcf
+*.log
+*.out
+*.pdf
+*.run.xml
+*.toc

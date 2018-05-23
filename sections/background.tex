@@ -1,1 +1,180 @@
 \chapter{Background}
+\label{cha:background}
+
+In this chapter, we analyze the state of the art of all the relevant fields
+involved in this work. Business Process Management, covered in
+Section~\ref{sec:background_bpm} is where the main contribution of this work
+lies in, since we aim to define a new business process modeling technique.
+Natural Language Processing, covered in Section~\ref{sec:background_nlp} is used
+extensively in our work in order to automatically extract the relevant
+information out of unstructured business process description. Finally, there are
+several parallels that can be drawn between ATD, defined in this work, and
+ontologies for the definition of business processes, such as the Process
+Specification Language (PSL). Section~\ref{sec:background_ontologies} covers the basic
+concepts in the field of knowledge representation with ontologies.
+
+\section{Business Process Management}
+\label{sec:background_bpm}
+
+\todo{I should explain simulation somewhere in this section.}
+
+Describe importance and goals of the BPM field.
+
+\section{Natural Language Processing}
+\label{sec:background_nlp}
+
+\emph{Natural Language Processing} is a field of artificial intelligence which
+addresses the interactions between computers and human languages. NLP focuses on
+many problems at different levels of abstraction, from the purely linguistic
+ones like morphosyntactic analysis or determining the part-of-speech of words
+to very challenging tasks such as the automatic summarization of news articles.
+
+Those tasks that go beyond parsing at a syntactic level and focus on the
+\emph{semantics} of written text are usually classified under the field of
+\emph{Natural Language Understanding} (NLU). The focus in NLU is to build
+complete semantic representations of texts in a machine-friendly format. It is
+thus an AI-complete\cite{22, section 1 from TFM} problem, since text are
+addressed to human readers under the assumption of common sense and world
+knowledge: Things very difficult to encode in a computer program. 
+
+NLP techniques are applied to address a variety of use cases in the context of
+Business Process Management. Several of these focus on the text contained in
+process models themselves. This includes a variety of works that focus on the
+quality of process model labels, for example by detecting violations of labeling
+conventions~\cite{becker2009,leopold2013detection,vandervos1997verification},
+inconsistent use of terminology~\cite{koschmider2007}, or common modeling
+errors~\cite{gruhn2011detecting}. Other approaches use NLP to augment process
+models with semantic or ontological
+information~\cite{leopold2015towards,francescomarino2009supporting,born2007userfriendly}.
+
+Other use cases involve texts that exist outside of process models. Several
+approaches extract process models from different kinds of text, such as from use
+cases~\cite{sinha2010use}, group stories~\cite{gonccalves2009business}, or
+methodological descriptions~\cite{epure2015automatic},  while others take
+general textual process descriptions as
+input~\cite{ghose2007process,friedrich2011process}. However,  these approaches
+have been found to produce inaccurate models, which require extensive manual
+revision~\cite{selway2015formalising}. Other use cases involving texts include a
+technique that considers \textit{work instructions} when querying process
+repositories~\cite{leopold2017searching} for conformance checking against
+textual process descriptions~\cite{vanderaa2018checking}.
+
+
+\subsection{Steps of Language Analysis}
+
+ The NLP processing software used in this work is
+ FreeLing\footnote{\url{http://nlp.cs.upc.edu/freeling}}~\cite{PadroS12}, an
+ open--source library of language analyzers providing a variety of analysis
+ modules for a wide range of languages. More specifically, the natural language
+ processing layers used in this work are:
+ 
+\begin{description}
+\item[Tokenization \& sentence splitting:] Given a text, split the basic lexical
+  terms (word, punctuation signs, numbers, ZIP codes, URLs, e-mail, etc.), and
+  group these tokens into sentences.
+\item[Morphological analysis:] For each word in the text, find out its possible
+  parts-of-speech (PoS).
+\item[PoS-Tagging:] Determine which is the right PoS for each word in a
+  sentence. (e.g. the word \textit{dance} is a verb in \textit{I dance all
+    Saturdays} but it is a noun in \textit{I enjoyed our dance together}.)
+\item[Named Entity Recognition:] Detect named entities in the text, which may be
+  formed by one or more tokens, and classify them as \textit{person},
+  \textit{location}, \textit{organization}, \textit{time-expression},
+  \textit{numeric-expression}, \textit{currency-expression}, etc.
+\item[Word sense disambiguation:] Determine the sense of each word in a text
+  (e.g. the word \textit{crane} may refer to an animal or to a weight-lifting
+  machine). We use WordNet \cite{fellbaum98} as the sense catalogue and synset
+  codes as concept identifiers.
+\item[Constituency/dependency parsing:] Given a sentence, get its syntatic
+  structure as a constituency/dependency parse tree.
+\item[Semantic role labeling (SRL):] Given a sentence identify its predicates and the
+  main actors in each of them, regardless of the surface structure of the
+  sentence (active/passive, main/subordinate, etc. For example, in the sentence
+  \textit{John does not want to go}, a SRL would detect two predicates
+  (\textit{want} and \textit{go}), and mark that \textit{John} is \texttt{Agent}
+  of both. Note that a parser could detect that \textit{John} is the
+  \texttt{subject} of \textit{want} but it would not detect that he is also the
+  one supposed to \textit{go}.  SRL provides a higher level of abstraction than
+  a parser, providing slightly deeper semantic knowledge. E.g. in a passive
+  sentence such as \textit{the fish was eaten by the cat}, a SRL system would
+  detect an event \textit{eat} with \textit{cat} as \texttt{Agent} and
+  \textit{fish} as \texttt{Patient}, i.e. exactly the same that it would extract
+  from the equivalent active sentence \textit{the cat eats fish}.
+  
+
+\item[Coreference resolution:] Given a document, group mentions referring to the same entity (e.g. a person can be mentioned in the text as \textit{Mr. Peterson}, \textit{the director}, or \textit{he}.) 
+%\item[Semantic graph generation:] All the information extracted by the previous analyzers can be organized in a graph depicting events (mainly coming from predicates in the text), entities (coming from detected coreference groups), and relations between them (i.e. which entities participate in which events and with which role). This graph can be converted to triples and stored in an RDF database if needed.
+\end{description}
+
+\subsection{Text Annotations}
+
+Creating annotated versions of texts is usual in NLP field, where many
+approaches are based on machine learning. Thus, to train a PoS-tagger, text
+where each word has been annotated with its part-of-speech, is required.
+Similarly, parsers, semantic role labellers, or coreference resolution systems,
+need example texts where this linguistic levels have been annotated by humans.
+These annotated corpora are then used to train the NLP analyzers and to
+evaluate their performance.
+
+Thanks to this need for annotated data in NLP, convenient tools have been
+developed to ease the annotation task. One of them is
+\emph{Brat}\footnote{\url{http://brat.nlplab.org}}, a configurable environment that
+allows the annotation of texts with labelled spans, and relations.
+Figure~\ref{fig:brat} shows Brat being used to annotate a scientific text with
+very specific concepts from the field of biology.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/brat}
+  \caption{One of the example annotations provided with the Brat
+    annotation tool.}
+  \label{fig:brat}
+\end{figure}
+
+A more recent alternativ for text annotation are Text Annotation Graphs (TAG)
+\cite{tag}. TAG is a web-based software which conceptually improves upon Brat
+two ways: \textit{(i)} It provides the functionality of representing complex
+relationships between text elements, allowing the definition of relationships
+between relationships themselves (semantic hypergraphs). \textit{(ii)} The
+visualization tool offers a more ergonomic and flexible representation of the
+annotated texts, allowing the repositioning of words, or filtering the view to
+only show a subset of the annotated information.\todo{ATDs -> ATD, like
+  TAG?}. Figure~\ref{fig:tag} shows a text annotated using TAG.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/tag}
+  \caption{One of the example annotations provided with the TAG
+    annotation tool.}
+  \label{fig:tag}
+\end{figure}
+
+In this work, we present Annotated Textual Descriptions as a business process
+modeling language. ATDs are based on text annotations, but its main purpose
+differs from the typical use cases of annotations. Ideally, ATDs would be
+automatically performed by an NLP tool, instead of being used as training data.
+However, given the limitations of the current NLP state-of-the-art, we will
+resort to a certain amount of human annotation to improve the quality of our
+semantic representation. This is discussed in further detail in Chapter~\ref{cha:atd}.
+
+
+\subsection{Business Process Notations}
+
+Make a short description of various PM notations, focus on bpm
+
+Also mention: BPEL, and other BPMN-like old notations and Declarative langauges such as DECLARE or DCR graphs
+
+Add a note on what is representational bias and how it affects PM notations
+
+\subsection{Process Mining}
+
+Describe the field of process mining and its goals:
+
+\section{Aligning Natural Language Descriptions and Process Models}
+\label{sec:background_alignments}
+
+Describe our previous work on this area
+
+\section{Ontologies}
+\label{sec:background_ontologies}
+

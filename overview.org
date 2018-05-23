@@ -1,0 +1,121 @@
+* Introduction and Motivation
+  
+    - Problem description
+    - Purpose of the study
+    - Present the practical case
+    - Summarize results
+
+* Background
+  
+** Natural Language Processing
+   
+*** Description
+    
+    - Describe NLP in general
+    - Contextualization in the field of AI 
+    - Relevant sub-fields. 
+    - Present freeling.
+
+*** Analysis Steps
+    
+    - Tokenization, Lemmatization, Pos-Tagging, Parsing, ...
+      
+*** Annotations
+    
+    - Annotations in NLP are usually to annotate training datasets for learning
+      algorithms. 
+    - Present TAG, BRAT and a short comparison
+    
+** Business Process Management
+   
+*** Description
+    
+    - BPM Description in a general context. 
+    - Sub-fields such as process mining (and its three sub-categories). 
+    - Multiple notations & representational bias.
+    - Problems with inconsistencies
+
+** Ontologies
+   
+   *TODO*
+
+*** Ontology Concepts
+
+*** Reasoners Theory
+
+
+
+* Theory
+  
+** Rationale (better name?)
+   
+   - Present Annotated Texts
+
+   - Advantages
+     - Can model ambiguity (flexible)
+     - Open-world assumption: What's not explicit could be anything
+     - Little representational bias (close to what we think in)
+       
+   - Requirements
+     - Must be able to represent everything that we need
+     - Ergonomics: Easy to annotate, no "boilerplate" (thanks to reasoning ?)
+       
+   - Explain why simple text won't work: 
+     - Too difficult for NLP state-of-the-art
+     - Some things cannot be inferred w/o domain knowledge
+
+*** Some Applications
+
+    - As Documentation:
+      The annotated texts can serve as a form of flexible process model  (*NOTE* Check 'flexible' here)
+    - Simulation of annotated texts
+    - Intermediate Language
+    - Assisted Modelling
+    - As a corpus for ML tools
+    
+  
+** Annotated Textual Descriptions (ATD)
+   
+*** Annotation Types (Tags, Relations, ...)
+    
+    - Action
+    - Role
+    - Object
+    - Conditions
+    - *TODO* etc.
+      
+    - Agent, Patient
+    - Coreferences
+    - Control Flow
+    - *TODO* etc.
+
+*** Mapping to an ontology (discussion, ?)
+    
+    *NOTE* I may present everything as an ontology from the start if it makes sense.
+
+*** Reasoning
+   
+    - Basic Reasoning: e.g. Inferring order relationships,
+      Transitive closures...
+    - More difficult inference, e.g. Text Soundness.
+   
+*** Applications
+    
+    - Discuss possible applications of ATDs
+     
+      - As *documentation*
+      - As an *intermediate language*
+      - *Simulating* textual descriptions
+
+* Practical Case: The Model Judge
+  
+  Present the Model Judge as a practical application of ATDs
+  
+** Approach
+   
+** Experimental Setting
+   
+** Results
+
+
+* Conclusions

@@ -1,41 +1,41 @@
 \chapter{Introduction}
 \label{cha:intro}
 
-A model is defined as an abstract representation of an idea. As humans, we build
-and share models in order to transmit our mental representation of reality and,
-as such, they are one of the main building blocks of our organizations. In the field of
-computer science, we encounter a plethora of modeling languages for different
-application domains, from the Unified Modelling Language (UML) to First Order
-Logic itself.
+%A model is defined as an abstract representation of an idea. As humans, we build
+%and share models in order to transmit our mental representation of reality and,
+%as such, they are one of the main building blocks of our organizations. In the field of
+%computer science, we encounter a plethora of modeling languages for different
+%application domains, from the Unified Modelling Language (UML) to First Order
+%Logic itself.
 
-When we reach consensus on a modeling language, we can employ its vocabulary in
-order to communicate ideas to others unambiguously, which is why models are so
-important in cooperative tasks. When the scale of cooperation is at the level of
-large organizations, having a common, unambiguous understanding of the situation
-becomes crucial for operations.\todo{The first two paragraphs do not add much
-  contribution to the paper. However I believe they may be useful to
-  contextualize the work at a very general level. Should I keep them?}
+%When we reach consensus on a modeling language, we can employ its vocabulary in
+%order to communicate ideas to others unambiguously, which is why models are so
+%important in cooperative tasks. When the scale of cooperation is at the level of
+%large organizations, having a common, unambiguous understanding of the situation
+%becomes crucial for operations.\todo{The first two paragraphs do not add much
+  %contribution to the paper. However I believe they may be useful to
+  %contextualize the work at a very general level. Should I keep them?}
 
 \textit{Business Process Management} (BPM) is an area in operations research
 with the goal of modeling, analyzing and optimizing \textit{business processes}.
 One of the main pillars of BPM are \emph{process models}. A process model 
-represents how a certain task is performed in an organization, and thus, can be
+represents how a certain task is performed in an organization, and as such, can be
 used to efficiently communicate the internal operations of a company.
 
 In the era of information systems and artificial intelligence, the
-focus of process models has progressively shifted from human readability to
-\textit{machine readability}. We have moved from the traditionally graphical
+focus of process models has progressively shifted from \textit{human readability} to
+\textit{machine readability}\cite{ter2009modern}. We have moved from the traditionally graphical
 models for business process documentation, such as the flow chart, to more
 formal standards built on top of machine-readable languages, like the Business
-Process Model and Notation (BPMN) \cite{chinosi2012bpmn} standard. This has
+Process Model and Notation (BPMN)\cite{chinosi2012bpmn} standard. This has
 enabled automation for the analysis and improvement of business processes, which
 in turn translates in real value for companies using these techniques.
 
 However, this formalization of the semantics of process models results in an
 increase in modeling languages' complexity, which in turn, results in
 non-experts --stakeholders and employees alike-- having difficulties in
-understanding the processes\cite{citation needed}. This often leads to
-misunderstandings that cause errors in the execution of processes.
+understanding the processes\cite{leopold2014supporting}. These misunderstandings may
+have serious consequences for any organization\cite{van2015fragmentation}
 
 For the above reasons, no standard for process modeling has ultimately stood above
 the others. This has lead to a scenario where BPM-focused organizations often
@@ -43,37 +43,27 @@ have to maintain multiple representations of the same process model. Informal
 versions, which heavily rely on semi-structured or unstructured natural
 language, are kept next to more formal and structured alternatives. Furthermore,
 in this formal spectrum, we encounter several modeling languages, each one
-aiming to solve a different subset of problems\cite{workflow patterns}.
+aiming to solve a different subset of problems\cite{10.1007/978-3-540-72035-5_7,
+ van2003workflow}.
 
 In this work, we propose an alternative to conventional process modeling
-languages that aims to be intuitive and ergonomic, but at the same time can act
-as a formal language enabling the automation of analysis, monitoring, or
+languages that aims to be intuitive and ergonomic, but at the same time acts 
+as a formal representation enabling the automation of analysis, monitoring, or
 simulation of business processes. Our technique combines the flexibility of
 unstructured human langauge with Natural Language Processing (NLP) techniques in
-order to create an Annotated Textual Description (ATD). Additionally, we present a
-practical application of ATDs with Model Judge, an web platform designed to aid 
-novices in the creation of business process models which uses ATDs as one of the
-main elements of its algorithm.
+order to create an Annotated Textual Description (ATD) that represents the
+business process. Additionally, we present a practical application of ATD with
+\emph{Model Judge}, a web platform designed to aid novices in the creation of
+business process models which uses ATD as one of the core ideas behind its
+algorithm.
+
 
 The remainder of this document is structured as follows. In
 Chapter~\ref{cha:background}, we discuss in detail the state of the art of the
 several fields involved in this project and introduce all the necessary
 background concepts. Chapter~\ref{cha:atd} presents Annotated Textual
-Descriptions and discusses some theoretical applications in the field of
+Descriptions and discusses some of its theoretical applications in the field of
 Business Process Management. Chapter~\ref{cha:modeljudge} describes the
-practical case of the Model Judge and offers an empirical evaluation of the
+practical use case of \emph{Model Judge} and offers an empirical evaluation of the
 platform with two real modeling courses. Finally, Chapter~\ref{cha:conclusions}
 concludes this thesis and discusses some possible future research lines.
-
-
-
-
-
-
-
-%\begin{itemize}
-%\item Problem description
-%\item Purpose of the study
-%\item Present the practical case
-%\item Summarize results
-%\end{itemize}

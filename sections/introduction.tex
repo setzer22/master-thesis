@@ -1,6 +1,8 @@
 \chapter{Introduction}
 \label{cha:intro}
 
+\section{Motivation}
+
 %A model is defined as an abstract representation of an idea. As humans, we build
 %and share models in order to transmit our mental representation of reality and,
 %as such, they are one of the main building blocks of our organizations. In the field of
@@ -57,13 +59,99 @@ business process. Additionally, we present a practical application of ATD with
 business process models which uses ATD as one of the core ideas behind its
 algorithm.
 
+\section{Project Scope}
+\label{sec:scope}
 
-The remainder of this document is structured as follows. In
-Chapter~\ref{cha:background}, we discuss in detail the state of the art of the
-several fields involved in this project and introduce all the necessary
+The work presented in this Master Thesis project has been divided into the
+following activities:
+
+\subsection*{Formalization of ATD and its semantics}
+
+As part of this task, we have explored the common characteristics in business
+process descriptions, in order to identify what kind of information is relevant
+in this kind of documents.
+
+Next, the identified concepts have been translated in terms of an annotation
+language: Annotations (or concepts), and the set of relations between them. 
+
+Finally, due to the close relation between text annotations and ontologies, we
+have studied the possibility of mapping the concepts in ATD to some well known
+process description ontologies, such as the Process Specification
+Language\cite{gruninger2003process}.
+
+\subsection*{Development of \emph{ATDlib} and Integration with Annotation Tools}
+
+This task consisted in the development of a hybrid Clojure/Java library, \emph{ATDlib}.
+This library is intended to be a set of software tools to manage and generate
+ATD process descriptions.
+
+The two main functionalities implemented in \emph{ATDlib} are the automatic
+generation of partial ATDs from text and the translation between ATDs and
+FreeLing\cite{PadroS12} document descriptions.
+
+In order to operationalize the workflow presented in this work for the
+generation of ATDs, the functionalities presented in \emph{ATDlib} must be
+integrated into a graphical annotation tool. As part of this task, we explored
+two alternatives in the NLP field: Brat\cite{stenetorp2012brat} and TAG
+\cite{DBLP:journals/corr/abs-1711-00529}.
+
+\subsection*{Design and Development of the \emph{Model Judge}'s Algorithm}
+
+This activity consisted in the design of an algorithm behind \emph{Model Judge},
+a web platform designed to aid novice students in the process of process
+modeling. This algorithm is based on the notion of Annotated Textual
+Descriptions that was formalized and developed in the two previous tasks.
+
+\subsection{Analysis of the \emph{Model Judge} Analytics Data}
+
+In order to gain insights and evaluate the \emph{Model Judge} platform, we
+collected analytics information from two courses that took place in
+Denmark's Technical University (DTU) and the Universidad Catolica de Santa
+Mar\'ia (UCSM), in Peru, which used \emph{Model Judge} as the main
+modeling tool.
+
+This task consisted in the preprocessing and analysis of the analytics data
+collected from the platform.
+
+
+%\begin{itemize}
+  %\item The formalization of the definition of ATD and its semantics.
+  %\item The development of ATDlib, a set of software tools to manage and
+    %generate ATD.
+  %\item Evaluate the integration between ATDlib and standard text annotation
+    %tools
+  %\item The design and development of the diagnostic algorithm behind
+    %\emph{Model Judge}
+%\end{itemize}
+
+%The ATD semantics presented in this work have undergone several revisions in
+%order to improve the robustness and ergonomics of the language. We believe the
+%final formalisation presented can serve as a strong foundation for future work
+%in this area.
+
+%With ATDlib, we have achieved two very important goals in the operationalization
+%of ATD process descriptions: Automatic generation of partial annotations and
+%Automatic conversion of annotations to FreeLing document descriptions.
+
+%The Model Judge platform has received very positive feedback and the evaluations
+%provided show 
+
+\section{Structure of this Document}
+
+\todo{Find a better section name.}
+
+The remainder of this document is structured as follows: Section~\ref{sec:scope}
+provides a detailed description of the scope of this Master Thesis as a set of
+objectives. Chapter~\ref{cha:background}, discusses the state of the art in 
+the several fields involved in this project and introduces all the necessary
 background concepts. Chapter~\ref{cha:atd} presents Annotated Textual
 Descriptions and discusses some of its theoretical applications in the field of
-Business Process Management. Chapter~\ref{cha:modeljudge} describes the
-practical use case of \emph{Model Judge} and offers an empirical evaluation of the
-platform with two real modeling courses. Finally, Chapter~\ref{cha:conclusions}
-concludes this thesis and discusses some possible future research lines.
+Business Process Management. Chapter~\ref{cha:atdlib} presents the technical
+details behind the implementation of \emph{ATDlib}. Chapter~\ref{cha:modeljudge}
+describes the \emph{Model Judge} platform, a practical use case of ATD and
+offers an empirical evaluation of the platform with two real modeling courses.
+Finally, Chapter~\ref{cha:conclusions} concludes this thesis and discusses some
+possible future research lines.
+
+
+

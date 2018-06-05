@@ -20,18 +20,104 @@ concepts in the field of knowledge representation with ontologies.
 
 Describe importance and goals of the BPM field.
 
+In large companies and organizations coordination between multiple actors
+involved in \textit{business processes} is very important for correct
+operations. Business process management is a field of research focused in how to  
+\textit{communicate}, \textit{document}, \textit{analyze} and \textit{enhance}
+business processes.
+
+BPM is a very wide area of research, with several sub-fields focusing on
+different aspects of business processes. From very theoretical research based on
+petri net theory\cite{citation needed}, to empirical psychological research
+about the \emph{process of process modeling}\cite{citation needed}.
+
+Among all the different sub-fields of BPM, \emph{Process Mining} deserves
+special attention. Process Mining, defined by one of its greatest proponents as
+\emph{Data Science in Action}\cite{van2016process}, is a research area focused on
+developing techniques that allow for extracting business process information
+from event logs. An event logs is sequence of labeled events that is typically
+extracted from the data repositories of an organization (e.g. a \textit{Data
+  Warehouse}). At least, an event should contain a timestamp and some kind of
+description, but more information can be added such as the resources involved,
+the cost for the particular action executed or the actors involved in its
+execution. For instance, in a bank process for evaluating the credit score of a
+client, the event $\langle timestamp, activity, role, actor \rangle = \langle
+1527612256, background\_check, Manager, John \rangle$
+indicates that at some point in time, John (the Manager) ran a background check
+for a client. The following problems are examples of the focus of the research
+in Process Mining:
+
+\begin{itemize}
+\item Discovering a Business Process Model, given an event log
+\item Generating a simulated event log, given a business process model
+\item Finding an alignments between event logs and business process models, or
+  between themselves
+\item Enhancing or correcting existing process models by analyzing the event logs
+\item Detecting the \emph{conformance} of an event log to a business process model
+\item Analyzing the behavioural (i.e. control flow) patterns in a business
+  process model or an event log
+\end{itemize}
+
+The project described in this Master Thesis is englobed in an emerging
+field\cite{some papers here} in BPM, focused in the relation between human
+natural language and the formal methods found in other fields of research, such as
+Process Mining.
+
 \subsection{Business Process Notations}
 
-Make a short description of various PM notations, focus on bpm
+%Make a short description of various PM notations, focus on bpm
 
-Also mention: BPEL, and other BPMN-like old notations and Declarative langauges such as DECLARE or DCR graphs
+%Also mention: BPEL, and other BPMN-like old notations and Declarative langauges such as DECLARE or DCR graphs
 
-Add a note on what is representational bias and how it affects PM notations
+%Add a note on what is representational bias and how it affects PM notations
 
-\subsection{Process Mining}
+This Master Thesis presents an alternative to conventional Business Process
+Notations (BPN). In the literature, one can find numerous approaches to BP modelling
+techinques. In their survey\cite{10.1007/978-3-540-72035-5_7}, Ruopeng Lu and
+Shazia Sadiq, classify Business Process Notations in graph-based and rule-based.
 
-Describe the field of process mining and its goals:
+Graph-based BPN represent business processes as a control flow graph. They are
+heavily inspired, and usually convertible to Petri Nets\cite{lohmann2009petri},
+a formal mathematical model usually employed to describe distributed systems. In
+graph-based BPN, the process is described as a sequence of linked nodes,
+indicating sequential, alternative or concurrent execution paths. To this day,
+the most prominent graph-based business process notation is the Business Process
+Model and Notation (BPMN)\cite{chinosi2012bpmn}, with its first version
+published in 2011. However, before BPMN's quick rise in popularity, the Business
+Process Execution Language (BPEL) had the most widespread usage. Several other
+alternatives like YAWL \cite{van2005yawl} have been proposed both from the
+academics and the industry. Figure~\ref{fig:bpn_comparison_graph} shows a
+comparison between the three aforementioned graph-based business process
+notations.
 
+\begin{figure}[htb]
+  \begin{minipage}{.65\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/bpn_comparison/bpmn}
+    \includegraphics[width=\textwidth]{figures/bpn_comparison/yawl}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{.34\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/bpn_comparison/BPEL}
+  \end{minipage}
+  \caption{Example process in different graph-based execution languages: BPMN (top-left)
+     YAWL (bottom-left) BPEL (right).}
+  \label{fig:bpn_comparison_graph}
+\end{figure}
+
+Rule-based BPN express the process model as a set of rules. In most rule-based
+systems, the rules are expressed as restrictions (e.g. ``A request form can only
+be sent by a manager''). The main difference of these systems with respect to
+Graph-based alternatives is that they allow more flexible behaviour to be
+described in a more natural way, at the cost of higher verbosity and being more
+error prone. For instance, consider a variation of the process described in
+figure \ref{fig:bpn_comparison_graph} where the order of the examinations is
+irrelevant, but it is mandatory for the doctor to sterylise the medical
+equipment between the two. In graph-based systems, duplication of activities
+cannot be avoided to express the semantics of this rule. On the other hand, most
+rule-based systems can introduce the rule that task $sterylize$ must always
+happen between two examinations.
 
 \section{Natural Language Processing}
 \label{sec:background_nlp}
@@ -120,6 +206,7 @@ textual process descriptions~\cite{vanderaa2018checking}.
 \end{description}
 
 \subsection{Text Annotations}
+\label{sec:background_anns}
 
 Creating annotated versions of texts is usual in NLP field, where many
 approaches are based on machine learning. Thus, to train a PoS-tagger, text
@@ -171,13 +258,6 @@ automatically performed by an NLP tool, instead of being used as training data.
 However, given the limitations of the current NLP state-of-the-art, we will
 resort to a certain amount of human annotation to improve the quality of our
 semantic representation. This is discussed in further detail in Chapter~\ref{cha:atd}.
-
-
-\section{Aligning Natural Language Descriptions and Process Models}
-\label{sec:background_alignments}
-
-\todo{remove this section, explain the adapted algorithm in Model Judge chapter}
-Describe our previous work on this area
 
 \section{Ontologies}
 \label{sec:background_ontologies}

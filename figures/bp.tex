@@ -1,0 +1,27 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage{amsmath,amssymb,graphicx}
+\usepackage{txfonts}
+\usepackage{rotating}
+
+\begin{document}
+
+\begin{tabular}{| p{3.0mm} | p{3.0mm} | p{3.0mm} | p{3.0mm} | p{3.0mm} | p{3.0mm} |}
+
+  \hline
+        & $a_1$ & $a_2$ & $a_3$ & $\cdots$ & $a_n$ \\
+  \hline
+  $a_1$ & $+$ & $\rightsquigarrow$ & $\rightsquigarrow$ &  & $\rightsquigarrow$ \\
+  \hline
+  $a_2$ & $\leftsquigarrow$  & $+$ & $\Vert$ & & $\rightsquigarrow$ \\
+  \hline
+  $a_3$ & $\leftsquigarrow$  & $\Vert$  & $+$ &&  $\rightsquigarrow$ \\
+  \hline
+  ~\begin{turn}{90}$\cdots$\end{turn}   &   &   &   &  & ~\begin{turn}{90}$\cdots$\end{turn} \\
+  \hline
+  $a_n$ & $\leftsquigarrow$  &  $\leftsquigarrow$ & $\leftsquigarrow$   &  $\cdots$  &  $+$  \\
+ 
+  
+  \hline
+\end{tabular}
+
+\end{document}

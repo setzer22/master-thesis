@@ -7,18 +7,24 @@ Section~\ref{sec:background_bpm} is where the main contribution of this work
 lies in, since we aim to define a new business process modeling technique.
 Natural Language Processing, covered in Section~\ref{sec:background_nlp} is used
 extensively in our work in order to automatically extract the relevant
-information out of unstructured business process description. Finally, there are
-several parallels that can be drawn between ATD, defined in this work, and
-ontologies for the definition of business processes, such as the Process
-Specification Language (PSL). Section~\ref{sec:background_ontologies} covers the basic
-concepts in the field of knowledge representation with ontologies.
+information out of unstructured business process description. Finally,
+Section~\ref{sec:background_nlp4bpm} presents \emph{NLP4BPM}, a project
+developed in our research group which is very closely related to the work
+presented.
+
+
+%Finally, there are several parallels that can be drawn between ATD, defined in
+%this work, and ontologies for the definition of business processes, such as the
+%Process Specification Language (PSL). Section~\ref{sec:background_ontologies}
+%covers the basic concepts in the field of knowledge representation with
+%ontologies.
+
 
 \section{Business Process Management}
 \label{sec:background_bpm}
 
-\todo{I should explain simulation somewhere in this section.}
-
-Describe importance and goals of the BPM field.
+%\todo{I should explain simulation somewhere in this section.}
+%Describe importance and goals of the BPM field.
 
 In large companies and organizations coordination between multiple actors
 involved in \textit{business processes} is very important for correct
@@ -26,42 +32,64 @@ operations. Business process management is a field of research focused in how to
 \textit{communicate}, \textit{document}, \textit{analyze} and \textit{enhance}
 business processes.
 
+Business Process Management approaches processes at three different
+levels\cite{mendling2017challenges}:
+
+\begin{description}
+  \item[Multi Process Management]{ focuses on the identification of major
+      processes of an organization and their priorization. This task
+      involves the inspection of the data repositories of a company, such as
+      \emph{Data Warehouses}, in order to discover and extract process
+      what are the relevant business processes.}
+  \item[Process Model Management]{ is concerned with the management of a single
+      Business Process Model. This involves \emph{discovering} the process and
+      creating a \emph{process model} using some kind of process model notation,
+      as well as implementing the necessary \emph{monitoring} tools in order to
+      \emph{control} the process.}
+  \item[Process Instance Management]{ deals with the actual execution of
+      process: \emph{Planning} how the tasks are going to be executed,
+      \emph{monitoring} the process during its execution and \emph{adapting} the
+      process if problems are detected.}
+\end{description}
+
+
 BPM is a very wide area of research, with several sub-fields focusing on
 different aspects of business processes. From very theoretical research based on
-petri net theory\cite{citation needed}, to empirical psychological research
-about the \emph{process of process modeling}\cite{citation needed}.
+Petri net theory\cite{citation needed}, to empirical psychological research
+about the \emph{process of process modeling}\cite{citation needed}. The project
+described in this Master Thesis is englobed in an emerging
+field\cite{vanderaa2018challenges} in BPM, focused in the relation between human
+natural language and the formal methods found in other fields of research, such
+as \emph{Process Mining}\cite{van2016process}.
 
-Among all the different sub-fields of BPM, \emph{Process Mining} deserves
-special attention. Process Mining, defined by one of its greatest proponents as
-\emph{Data Science in Action}\cite{van2016process}, is a research area focused on
-developing techniques that allow for extracting business process information
-from event logs. An event logs is sequence of labeled events that is typically
-extracted from the data repositories of an organization (e.g. a \textit{Data
-  Warehouse}). At least, an event should contain a timestamp and some kind of
-description, but more information can be added such as the resources involved,
-the cost for the particular action executed or the actors involved in its
-execution. For instance, in a bank process for evaluating the credit score of a
-client, the event $\langle timestamp, activity, role, actor \rangle = \langle
-1527612256, background\_check, Manager, John \rangle$
-indicates that at some point in time, John (the Manager) ran a background check
-for a client. The following problems are examples of the focus of the research
-in Process Mining:
 
-\begin{itemize}
-\item Discovering a Business Process Model, given an event log
-\item Generating a simulated event log, given a business process model
-\item Finding an alignments between event logs and business process models, or
-  between themselves
-\item Enhancing or correcting existing process models by analyzing the event logs
-\item Detecting the \emph{conformance} of an event log to a business process model
-\item Analyzing the behavioural (i.e. control flow) patterns in a business
-  process model or an event log
-\end{itemize}
+%Among all the different sub-fields of BPM, \emph{Process Mining} deserves
+%special attention. Process Mining, defined by one of its greatest proponents as
+%\emph{Data Science in Action}\cite{van2016process}, is a research area focused on
+%developing techniques that allow for extracting business process information
+%from event logs. An event logs is sequence of labeled events that is typically
+%extracted from the data repositories of an organization (e.g. a \textit{Data
+  %Warehouse}). At least, an event should contain a timestamp and some kind of
+%description, but more information can be added such as the resources involved,
+%the cost for the particular action executed or the actors involved in its
+%execution. For instance, in a bank process for evaluating the credit score of a
+%client, the event $\langle timestamp, activity, role, actor \rangle = \langle
+%1527612256, background\_check, Manager, John \rangle$
+%indicates that at some point in time, John (the Manager) ran a background check
+%for a client. The following problems are examples of the focus of the research
+%in Process Mining:
 
-The project described in this Master Thesis is englobed in an emerging
-field\cite{some papers here} in BPM, focused in the relation between human
-natural language and the formal methods found in other fields of research, such as
-Process Mining.
+%\begin{itemize}
+%\item Discovering a Business Process Model, given an event log
+%\item Generating a simulated event log, given a business process model
+%\item Finding an alignments between event logs and business process models, or
+  %between themselves
+%\item Enhancing or correcting existing process models by analyzing the event logs
+%\item Detecting the \emph{conformance} of an event log to a business process model
+%\item Analyzing the behavioural (i.e. control flow) patterns in a business
+  %process model or an event log
+%\end{itemize}
+
 
 \subsection{Business Process Notations}
 
@@ -88,7 +116,16 @@ Process Execution Language (BPEL) had the most widespread usage. Several other
 alternatives like YAWL \cite{van2005yawl} have been proposed both from the
 academics and the industry. Figure~\ref{fig:bpn_comparison_graph} shows a
 comparison between the three aforementioned graph-based business process
-notations.
+notations. Despite their differences, there is a minimum subset of elements that
+almost all of them have in common. \textit{(i)} The notion of activity, which is
+a task to be executed in the process, usually containing a text label in order
+to provide semantics to the process. \textit{(ii)} The \emph{XOR} split, which
+branches the execution in two alternative paths, and only one of them may be
+executed for any process instance. \textit{(iii)} The \emph{AND} split, which
+branches the execution into two concurrent paths, the execution of which can be
+interleaved arbitrarily.
+
+
 
 \begin{figure}[htb]
   \begin{minipage}{.65\textwidth}
@@ -132,7 +169,7 @@ Those tasks that go beyond parsing at a syntactic level and focus on the
 \emph{semantics} of written text are usually classified under the field of
 \emph{Natural Language Understanding} (NLU). The focus in NLU is to build
 complete semantic representations of texts in a machine-friendly format. It is
-thus an AI-complete\cite{22, section 1 from TFM} problem, since text are
+thus an AI-complete\cite[Section 1]{ai_completeness} problem, since text are
 addressed to human readers under the assumption of common sense and world
 knowledge: Things very difficult to encode in a computer program. 
 
@@ -199,10 +236,13 @@ textual process descriptions~\cite{vanderaa2018checking}.
   detect an event \textit{eat} with \textit{cat} as \texttt{Agent} and
   \textit{fish} as \texttt{Patient}, i.e. exactly the same that it would extract
   from the equivalent active sentence \textit{the cat eats fish}.
-  
-
 \item[Coreference resolution:] Given a document, group mentions referring to the same entity (e.g. a person can be mentioned in the text as \textit{Mr. Peterson}, \textit{the director}, or \textit{he}.) 
-%\item[Semantic graph generation:] All the information extracted by the previous analyzers can be organized in a graph depicting events (mainly coming from predicates in the text), entities (coming from detected coreference groups), and relations between them (i.e. which entities participate in which events and with which role). This graph can be converted to triples and stored in an RDF database if needed.
+\item[Semantic graph generation:] All the information extracted by the previous
+  analyzers can be organized in a graph depicting events (mainly coming from
+  predicates in the text), entities (coming from detected coreference groups),
+  and relations between them (i.e. which entities participate in which events
+  and with which role). This graph can be converted to triples and stored in an
+  RDF database if needed.
 \end{description}
 
 \subsection{Text Annotations}
@@ -218,10 +258,11 @@ evaluate their performance.
 
 Thanks to this need for annotated data in NLP, convenient tools have been
 developed to ease the annotation task. One of them is
-\emph{Brat}\footnote{\url{http://brat.nlplab.org}}, a configurable environment that
-allows the annotation of texts with labelled spans, and relations.
-Figure~\ref{fig:brat} shows Brat being used to annotate a scientific text with
-very specific concepts from the field of biology.
+\emph{Brat}\cite{stenetorp2012brat}\footnote{\url{http://brat.nlplab.org}}, a
+configurable environment that allows the annotation of texts with labelled
+spans, and relations. Figure~\ref{fig:brat} shows Brat being used to annotate a
+scientific text with very specific concepts from the field of biology.
+
 
 \begin{figure}[htb]
   \centering
@@ -258,6 +299,66 @@ automatically performed by an NLP tool, instead of being used as training data.
 However, given the limitations of the current NLP state-of-the-art, we will
 resort to a certain amount of human annotation to improve the quality of our
 semantic representation. This is discussed in further detail in Chapter~\ref{cha:atd}.
+
+\section{The \emph{NLP4BPM} Project}
+\label{sec:background_nlp4bpm}
+
+When multiple business process representations are used inside an organization,
+it becomes very important to ensure availability and consistency of the existing
+documentation. The \emph{Natural Language Tools for Business Process Management}
+(\emph{NLP4BPM}) project, developed by our group in the Polythecnic University
+of Catalonia, aims to solve several related problems in this doman.
+
+In \emph{NLP4BPM}, several different approaches are taken in order to aid
+organizations in managing multiple representations of processes:
+
+\begin{description}
+\item[\emph{Text2BPMN}]{Converting a natural langauge textual description into a
+  BPMN business process model.}  
+\item[\emph{BPMN2Text}]{Converting a BPMN business process model into a
+    human-readable textual description.}  
+\item[\emph{BPMNvsText}]{Computing an \emph{alignment} between a model and a
+    textual description in order to compare them. An alignment is a mapping
+    between tasks in the model and sentences in the text. The implementation
+    follows the technique presented in \cite{10.1007/978-3-319-59536-8_26}.}  
+\item[\emph{BPMNvsBPMN}]{Computes an alignment between two different BPMN
+    models. Here the alignment is between the set of tasks of the two process
+    models. The techniques implemented in this module are based on Relaxation
+    Labeling algorithms}  
+\item[\emph{BPMN2ChatBot}]{Converts a BPMN diagram into an interactive chat bot
+    that guides a user throughout the process execution.}
+\end{description}
+
+The different techniques are developed as independent modules and unified under
+the same graphical interface, which is presented in a user-friendly manner. The
+tool is available online at \url{http://nlp4bpm.cs.upc.edu/}.
+Figure~\ref{fig:nlp4bpm_example} shows a screenshot of the web user interface.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/nlp4bpm}
+  \caption{Example execution of the BPMNvsText module at the NLP4BPM web
+    interface.}
+  \label{fig:nlp4bpm_example}
+\end{figure}
+
+One of the common elements in the \emph{NLP4BPM} project is the use of
+\emph{FreeLing}, and particularly of \emph{FreeLing}'s \emph{semantic graphs} in
+order to extract semantic information from both texts and BPMN labels. A
+semantic graph is an abstract representation of a document where entities (e.g.
+people, objects) are represented as nodes, and joined by relations, such as the
+\emph{temporal adjunct}, which joins an action with the words that describes the
+particular time during which it is performed, or the \emph{manner adjunct},
+which indicates the way in which the action is performed instead.
+
+One of the goals of this Master's thesis is to link Annotated Textual
+Descriptions, the main contribution presented in this work, with FreeLing
+semantic graphs. This will allow using ATD in order to improve the robustness of
+the algorithms presented above without having to modify them.
+Chapter~\ref{cha:atdlib} describes in more detail how this is achieved.
+
+
+
 
 \section{Ontologies}
 \label{sec:background_ontologies}

@@ -44,7 +44,7 @@
 *** Reasoners Theory
 
 
-
+    
 * Theory
   
 ** Rationale (better name?)

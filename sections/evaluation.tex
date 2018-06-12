@@ -191,24 +191,24 @@ At the Model Judge's core, there is the algorithm that produces a list of
 diagnostics for their current business process model. The design and
 implementation of this algorithm was implemented as a part of this Master Thesis.
 
-In Figure~\ref{fig:modeljudge_overview}, we can see a BPMN model of the
+In Figure~\ref{fig:modeljudge_overview}, we can see a BPMN diagram of the
 diagnostic generation process. The inputs to the system are the \emph{Textual
   Description}, which corresponds to the exercise statement, and the
 \emph{Process Model} created by the student.\todo{Change start event label to
   ``Student clicks validation button''?}. First, the textual description is
-analyzed by the Text Annotation module to automatically produce an Annotated
-Textual Description, which is then completed with human intervention to
-include the domain expertise not available to the NLP algorithms (See
-Section~\ref{sec:atdlib_tour}). Additionally, the \textit{Alignment} between the
-process model elements, such as activities or gateways and the annotations in
-the ATD is established. Finally, using all the previous information, the process
-model is checked against a textual description by the \emph{Diagnostics} module.
-
-\subsection{Process Model Analysis}
-
-\subsection{Diagnostics Generation}
-\label{sec:diagnostics_generation}
-
+analyzed by the Text Annotation module (See \texttt{text2atd},
+Section~\ref{sec:architecture}) to automatically produce an Annotated
+Textual Description, which is then completed with human intervention to include
+the domain expertise not available to the NLP algorithms. This step is only
+performed once and can be used to evaluate any number of students in that
+exercise. Once a particular student wants to validate a partial model, the
+process model is sent to \emph{Model Judge}. First, the process model is
+analyzed: A \emph{behavioral profile} is computed, and \emph{semantic roles} are
+extracted from the text labels in the model using a specialised chart parser.
+After the model is analyzed, the \textit{alignment} between the process model
+elements, such as activities or gateways and the annotations in the ATD is
+established. Finally, using all the previous information, the process model is
+checked against a textual description by the \emph{diagnostics} module.
 
 \begin{figure}[htb]
   \centering
@@ -217,7 +217,176 @@ model is checked against a textual description by the \emph{Diagnostics} module.
   \label{fig:modeljudge_overview}
 \end{figure}
 
+The next sections describe the multiple steps in \emph{Model Judge}'s algorithm
+in more detail. Section~\ref{sec:process_model_analysis} covers the analysis of
+the process model. In Section~\ref{sec:diagnostics_generation}, the necessary
+steps for obtaining the diagnostics are computed. Finally, the details behind
+the alignment of ATD and process models are discussed in
+Section~\ref{sec:aligning_atd_bpmn}.
+\todo{I don't like having alignment in its own section. However, the section is
+  too long to be put in a subsection instead.}
+
+\subsection{Process Model Analysis}
+\label{sec:process_model_analysis}
+
+\emph{Model Judge} performs two separate analysis of a Process Model sent by a
+student. First, a \emph{behavioral profile} of the process is computed, in order
+to compare it to the one from the ATD during the alignment computation (See
+Section~\ref{sec:alignment_creation}). The computation of a \emph{behavioral
+  profile} has well known algorithms and can be performed as long as the
+process' Petri net is \emph{bounded}\cite[Section IV.B]{murata1989petri}.
+Analyzing a process model, thus, consists of three steps:
+\begin{enumerate}
+  \item Convert the BPMN process into a Petri Net, this somtimes results in
+    unbounded Petri nets.
+  \item Check the boundedness of the resulting Petri net, only if the
+    property is fulfilled, the next step is executed.
+  \item Compute the behavioral profile of the Petri net.  
+\end{enumerate}
+
+The necessary operations to compute the behavioral profile are implemented in
+JBPT\cite{polyvyanyy2013towards}, a Java library consisting of several utilities
+to manage business process models.
+
+The second step in \emph{Model Judge}'s analysis of process models is extracting
+semantic roles from its text labels from activities, gateways, events, swimlanes
+and pools. Using FreeLing's generic parser and SRL module for this analysis,
+however, has some drawbacks: NLP parsers are generally trained on large corpora
+of written text, such as books or newspaper articles. However, this training
+data doesn't represent well the kind of sentences found in a process model,
+which are typically incomplete and use excessive
+capitalization\footnote{Excessive capitalization happens when all the words in a
+sentence are capitalized in order to highlight its importance. This is
+considered good writing style in section headers or process model labels, but
+most NLP parsers are not trained to recognise the phenomena and confuse some
+words for proper nouns when it is used.}. A very common confusion of NLP tools 
+when parsing text labels in models written in the english language occurs in the
+case of noun-verb \emph{homographs}\footnote{Two words are \emph{homographs}
+  when they share the same spelling}. Consider, for example, the phrase ``mail
+confirmation''. A typical NLP parser would identify this as a noun phrase, the
+\emph{confirmation of the mail}; this is because the \emph{prior} probability of
+the ``mail'' word occurring as a noun is far higher in the typical training data
+used. However, in business process models, labels usually start with a verb.
+When consider this information, we see that the real meaning of the label is
+that \emph{someone mails a confirmation}.
+
+To deal with this, we built a custom SRL module which encodes the most common
+label styles classified in \cite{PittkeLM16,leopold2013detection} in order to
+build a chart parser specific to process model labels. Due to the simplicity of
+most label structures, the parse tree can be directly used to extract the
+semantic roles using a custom set of rules. In our current implementation, we
+consider the most common types of labels:
+
+\begin{description}
+  \item[Verb-Object]{This label style consists of a verb in imperative form (the
+      main \emph{action}), followed by a noun, representing the \emph{business
+        object} and additional complements. For example, ``Examine patient'' is
+      a label in Verb-Object style.}
+  \item[Action-Noun]{In this label style, the main action is represented as a
+      noun, and is usually preceeded by the business object. An example of this
+      label style would be ``Patient examination''.}
+  \item[Double-Action]{This is a compound structure, where two or more actions
+    are described in a signle label, using Verb-Object style. ``Examine Patient
+    and Request Sample'' could be an example label using that style.}
+\end{description}
+
+The grammar for the custom chart parser tries to ifentify any of the above
+structures, and is written un such a way that that the root node of the parse
+tree will be labeled with the identified writing style, if found. For example, a
+label written in the \emph{noun-action} style will have this information
+reflected at the root node of the tree. Using this grammar, the parsing is then
+done as follows:
+
+\begin{enumerate}
+  \item {The $n$ most likely PoS-tag sequences of the label are computed.}
+  \item {For each of the PoS taggings, the label is parsed using a chart
+        parser with the aforementioned context-free grammar.}
+  \item {If some parse tree's root is tagged with one of the aforementioned
+      writing styles, the grammar the \emph{action} and \emph{patient} (i.e.
+      business object) roles will be extracted by following the identified
+      structure of the label. Note that due to BPMN's semantics, the
+      \emph{agent} of the action is never described in the activity label, as
+      that is the purpose of swimlanes.}
+    
+    
+\end{enumerate}
+
+
+\subsection{Diagnostics Generation}
+\label{sec:diagnostics_generation}
+
+The generation of the diagnostics is the final step in \emph{Model Judge}'s
+algorithm. The goal is to generate human-friendly diagnostics by identifying the
+differences between the ATD and the business process model. Most diagnostics can
+be computed a two granularity levels. Either at a general level --e.g. The
+process is missing \emph{some} activities--, or at a concrete level --e.g. The
+process is missing a label about the ``Patient Examination''--. The computation
+of the diagnostics uses the information in the ATD, the analysed process model
+and the alignment between the two. In this section we detail which diagnostics
+are currently generated by \emph{Model Judge} and how they are computed.
+
+\subsubsection*{Syntactic Diagnostics}
+The computation of syntactic diagnostics only requires the
+process model. Most checks implemented use well-known algorithms. Particularly,
+checking the use of implicit gateways or gateway reuse consists of a very simple
+structural check. On the other hand, the presence of non-natural loops can be
+determined by checking for cycles in the process graph after removing all its
+{\em back edges}, computed from the {\em dominator tree}~\cite{LengauerT79}.
+
+\subsubsection*{Pragmatic Diagnostics}
+The approach we use for checking adherence to a writing style is based on
+using the custom  parser for labels described in
+Section~\ref{sec:process_model_analysis}. Particularly, we use the
+identification of the label writing style in the root of the label's parse tree
+in order to restrict the labels to a certain set of accepted styles, which can
+be configured.
+
+In the current implementation, the writing style check focuses on looking
+for double actions, that is, activity labels that consist of two actions, such
+as \textit{``Close Ticket and Inform the Manager''}, for which the students are
+encouraged to write two separate activities. However, this technique can be
+adapted so any organization can enforce a label writing style in a flexible way.
+This adaptation would consist of expanding the grammar to handle the newly
+accepted new label styles, if necessary, and adding those styles to a list in
+\textit{Model Judge}'s configuration files.
+
+\subsubsection*{Semantic Diagnostics}
+Semantic checks are concerned with the underlying process
+semantics. Computing these diagnostics requires all the information from the
+annotated textual description, the process model and the alignment.
+
+To detect that an \emph{activity is missing} from the process model, the alignment
+information is used. Particularly, if there is an action in the ATD with no
+correspondences from the process model, the activity is missing from the process
+model. The system can then inform the modeler by generating a detailed error
+message using the annotated data from the textual description.
+
+Detecting \emph{unnecessary activities} also relies on the alignment. In this case,
+there will be a process model activity $p$ aligned to some ATD action $a$. If the
+similarity between $p$ and $a$ is low enough, according to the result of
+computing the predictor (as described in Section~\ref{sec:predictors}), the
+activity is considered unnecessary, as there is no good match for the activity
+in the text.
+
+The \emph{coverage of roles} is computed similarly to activities. In this case, the
+similarity function is used to assess the similarity between \emph{role}
+annotations and the process model's swimlanes. An unrestricted alignment is
+performed and the matches are used to detect missing and unnecessary roles as
+previously described with activities.
+
+Finally, in order to detect \emph{control flow consistency}, we focus on the
+differences between the constrained and unconstrained alignment. Particularly,
+if the objective function (that is, the sum of correspondence similarities)
+between the two alignments differs greatly, a warning is displayed to the user
+informing that the control flow in their process may be wrong. This careful
+phrasing is intended, since our testing has shown this method to not be
+completely reliable to detect subtle control flow errors, both in terms of
+false positives and false negatives.
+
+
+
 \section{Aligning ATD and BPMN Process Models}
+\label{sec:aligning_atd_bpmn}
 
 Establishing the correspondence between the annotations in the textual
 description and the elements in the business process model is necessary in order
@@ -226,20 +395,26 @@ computation is to be able to assess which parts of the process model have been
 correctly modeled by the student, according to the textual description.
 
 In order to achieve this goal, the technique presented in
-\cite{10.1007/978-3-319-59536-8_26}, which computes an alignment from process model
-activities to a textual description's sentences. The most important adaptation is the
-alignment input, which now considers the ATD's \emph{annotations}s instead of
-the plain sentences. In order to achieve this goal, the \texttt{atd2fl} and
-\texttt{atd2bp} modules from \emph{ATDlib} is used, in order to accurately
-transform the input text to a \emph{FreeLing}'s semantic graph and
-\emph{behavioral profile}, which is the original expected input of the alignment
-algorithm.
+\cite{10.1007/978-3-319-59536-8_26} is used, which computes an alignment from
+process model activities to a textual description's sentences. The most
+important adaptation is the alignment input, which now considers the ATD's
+\emph{annotations}s instead of the plain sentences. In order to achieve this
+goal, the \texttt{atd2fl} and \texttt{atd2bp} modules from \emph{ATDlib} are
+used, in order to accurately transform the input text to a \emph{FreeLing}'s
+semantic graph and \emph{behavioral profile}, which is the original expected
+input of the alignment algorithm.
 
 Figure~\ref{fig:alignment_overview} shows an overview of the alignment approach
 presented in \cite{10.1007/978-3-319-59536-8_26}. Next, we cover each of the
 steps in the algorithm, and the necessary addaptations that were performed to
 use the algorithm as part of \emph{Model Judge}:
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{figures/alignmentoverview}
+  \caption{Overview of the alignment technique presented in \cite{10.1007/978-3-319-59536-8_26}}
+  \label{fig:alignment_overview}
+\end{figure}
 \subsection{Feature Extraction}
 
 %WIL: OVERVIEW FIGURE
@@ -344,6 +519,7 @@ problem domain is the \emph{Weighted Overlapping Index}, computed as:
 Where $\Vert v \Vert^1$ represents the L1 norm of the vectors.
 
 \subsection{Alignment Creation}
+\label{sec:alignment_creation}
 
 The next step is the computation of the alignment between process model elements
 and the annotations of an \emph{ATD}. The alignment contains the
@@ -400,6 +576,7 @@ to be fast enough for the use case of student evaluation\footnote{Using the
   process}.
 
 \subsection{Predictor-based Refinement}
+\label{sec:predictors}
 
 This is one of the key steps in order to compute the \emph{unnecessary activity}
 diagnostics in \emph{Model Judge}. The optimal alignment described in the

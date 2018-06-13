@@ -4,36 +4,33 @@
 Due to the wide usage of process models in organizations, correctness and
 quality of models directly influences the correct execution of processes.
 However, research has shown that industrial process models often
-contain errors\cite{citation needed}.
+contain errors, which can lead to increased costs in production.
 
-Automating the detection of \emph{syntactic} errors is a common feature in 
+Automating the detection of syntactic errors is a common feature in 
 modelling software. However, the error types more closely related to the
 natural language sections of the model are usually not checked, due to the
 difficulties in the automatic analysis of such elements. Part of this
 Master thesis' work consisted in exploring a practical application of Annotated
 Textual Descriptions by designing the main algorithm behind \emph{Model
-  Judge}\cite{citation needed}. \emph{Model Judge} is a web platform supporting
-students in the creation of business process models by automatically detecting
-and reporting the most common sources of \emph{semantic} and \emph{pragmatic}
+  Judge}. Model Judge is a web platform supporting
+students idirectorn the creation of business process models by automatically detecting
+and reporting the most common sources of semantic and pragmatic
 errors in modeling The motivation behind the platform and its functionalities
 are discussed in
 Sections~\ref{sec:modeljudge_description}~and~\ref{sec:modeljudge_tour}.
-\todo{Describe all sections!}
-
-
 
 The algorithm, which is described in detail in
-Section~\ref{sec:modeljudge_approach} is based on the automatic computation of
-alignments between process model and textual descriptions developed in
-\cite{10.1007/978-3-319-59536-8_26}.
-% (covered in Section~\ref{sec:background_alignments}).
-However, it has been adapted to use
-ATDs (seen in Chapter~\ref{cha:atd}) instead of plain natural language text.
+Section~\ref{sec:modeljudge_approach} is based on the technique
+for automatic computation of alignments between process model and textual
+descriptions presented in \cite{10.1007/978-3-319-59536-8_26}.
+Section~\ref{sec:aligning_atd_bpmn} explains how the alignment
+technique in \cite{10.1007/978-3-319-59536-8_26} has been adapted to use ATD
+instead of plain text.
 
-The \emph{Model Judge} platform has been used as the main modeling tool as
+The Model Judge platform has been used as the main modeling tool as
 part of two Computer Science courses: One in Denmark's Technical University
 (DTU) and another in the Catholic University of Santa Mar\'ia (UCSM).
-Section~\ref{sec:modeljudge_results} defines the experimental setting and
+Section~\ref{sec:modeljudge_results} describes the experimental setting and
 analyzes the results obtained from the modeling sessions.
 
 \section{The \emph{Model Judge} Platform}
@@ -42,13 +39,13 @@ analyzes the results obtained from the modeling sessions.
 
 % Explain the use case: What does \emph{Model Judge} do?
 
-\emph{Model Judge} is a web platform designed to provide diagnostics regarding
+Model Judge is a web platform designed to provide diagnostics regarding
 issues on \emph{syntactic}, \emph{pragmatic} and \emph{semantic} quality in
 business process diagrams. Students are presented with a statement describing a
 business process in natural language, and are asked to model the corresponding
 diagram.
 
-The framework behind \emph{Model Judge} is based on computing an alignment
+The framework behind Model Judge is based on computing an alignment
 between the process model diagram to be evaluated and a reference textual
 description, which is an ATD based on the exercise's statement. This ATD is
 generated only once, with intervention from the course instructors, and can be
@@ -57,7 +54,7 @@ used to support multiple students simultaneously.
 
 \subsection{Diagnostics}
 
-\emph{Model Judge} is based on computing quality diagnostics on business process
+Model Judge is based on computing quality diagnostics on business process
 models. Instead of providing the user with a difficult to interpret numerical
 score, we believe more detailed feedback helps students and contrinbutes to
 continuous self-improvement.
@@ -84,7 +81,7 @@ less understandable and maintainable process models.
     (more than two inputs). Implicit Gateways exist when an activity has
     multiple input or output flows. The semantics for these two constructs are not
     clear and can lead to hidden modeling errors. Because of that, avoiding gateway reuse and implicit
-    gateways is a well-known best practice in business process models~\cite{MendlingRA10,BernsteinS15,Haisjackl2018}.}
+    gateways is a well-known best practice in business process models~\cite{MendlingRA10}.}
 \item[Non-Natural Loops.]{Due to their similarity, some desirable properties of
     program's control flow graphs are also relevant in the context of process
     model diagrams. Ideally, process models should contain only of \emph{Natural
@@ -105,7 +102,7 @@ responsible for taking a sample to be analysed in the lab later''}, having that
 sentence as an activity label in the process model adds unnecessary complexity,
 since the aim is to have label text to be as simple as possible.
 
-Previous studies \cite{mendling2010activity, Leopold0M12, leopold2013detection,PittkeLM16} have
+Previous studies \cite{mendling2010activity, Leopold0M12, leopold2013detection} have
 established the common structures in label descriptions. However, these
 structures are not always followed by novice students. Because of that, an
 automatic detection of invalid writing styles is beneficial for student
@@ -145,10 +142,10 @@ introduces noise that can generate confusion. Semantic diagnostics help enforcin
 \section{A Tour through \emph{Model Judge}}
 \label{sec:modeljudge_tour}
 
-The \emph{Model Judge} can be accessed using any modern web browser at
+The Model Judge can be accessed using any modern web browser at
 \url{http://modeljudge.cs.upc.edu}. It is designed both for helping students in
 the process of creating a process model, and instructors in the task of
-designing modeling activities in an agile way. \todo{Should I make it explicit that I didn't do the application?}
+designing modeling activities in an agile way. 
 
 The application requires registration, and users with the \emph{instructor} role
 are able to create and manage courses. However, the functionality to include new
@@ -156,7 +153,7 @@ exercises is restricted to the developers of the application.
 
 All registered users are able to access the exercise list and attempt solving
 any of them. After selecting an exercise, the user is brought to the modeling
-view, which is displayed in Figure~\ref{fig:validation}. In the modeling view,
+view, which is displayed in Figure~\ref{fig:modeljudge_validation}. In the modeling view,
 the user has access to a textual description of the process, and a BPMN editor.
 
 During the exercise, students can use the \textbf{Validation} functionality to
@@ -194,15 +191,14 @@ implementation of this algorithm was implemented as a part of this Master Thesis
 In Figure~\ref{fig:modeljudge_overview}, we can see a BPMN diagram of the
 diagnostic generation process. The inputs to the system are the \emph{Textual
   Description}, which corresponds to the exercise statement, and the
-\emph{Process Model} created by the student.\todo{Change start event label to
-  ``Student clicks validation button''?}. First, the textual description is
+\emph{Process Model} created by the student. First, the textual description is
 analyzed by the Text Annotation module (See \texttt{text2atd},
 Section~\ref{sec:architecture}) to automatically produce an Annotated
 Textual Description, which is then completed with human intervention to include
 the domain expertise not available to the NLP algorithms. This step is only
 performed once and can be used to evaluate any number of students in that
 exercise. Once a particular student wants to validate a partial model, the
-process model is sent to \emph{Model Judge}. First, the process model is
+process model is sent to Model Judge. First, the process model is
 analyzed: A \emph{behavioral profile} is computed, and \emph{semantic roles} are
 extracted from the text labels in the model using a specialised chart parser.
 After the model is analyzed, the \textit{alignment} between the process model
@@ -217,7 +213,7 @@ checked against a textual description by the \emph{diagnostics} module.
   \label{fig:modeljudge_overview}
 \end{figure}
 
-The next sections describe the multiple steps in \emph{Model Judge}'s algorithm
+The next sections describe the multiple steps in Model Judge's algorithm
 in more detail. Section~\ref{sec:process_model_analysis} covers the analysis of
 the process model. In Section~\ref{sec:diagnostics_generation}, the necessary
 steps for obtaining the diagnostics are computed. Finally, the details behind
@@ -229,7 +225,7 @@ Section~\ref{sec:aligning_atd_bpmn}.
 \subsection{Process Model Analysis}
 \label{sec:process_model_analysis}
 
-\emph{Model Judge} performs two separate analysis of a Process Model sent by a
+Model Judge performs two separate analysis of a Process Model sent by a
 student. First, a \emph{behavioral profile} of the process is computed, in order
 to compare it to the one from the ATD during the alignment computation (See
 Section~\ref{sec:alignment_creation}). The computation of a \emph{behavioral
@@ -248,7 +244,7 @@ The necessary operations to compute the behavioral profile are implemented in
 JBPT\cite{polyvyanyy2013towards}, a Java library consisting of several utilities
 to manage business process models.
 
-The second step in \emph{Model Judge}'s analysis of process models is extracting
+The second step in Model Judge's analysis of process models is extracting
 semantic roles from its text labels from activities, gateways, events, swimlanes
 and pools. Using FreeLing's generic parser and SRL module for this analysis,
 however, has some drawbacks: NLP parsers are generally trained on large corpora
@@ -271,7 +267,7 @@ When consider this information, we see that the real meaning of the label is
 that \emph{someone mails a confirmation}.
 
 To deal with this, we built a custom SRL module which encodes the most common
-label styles classified in \cite{PittkeLM16,leopold2013detection} in order to
+label styles classified in \cite{leopold2013detection} in order to
 build a chart parser specific to process model labels. Due to the simplicity of
 most label structures, the parse tree can be directly used to extract the
 semantic roles using a custom set of rules. In our current implementation, we
@@ -315,7 +311,7 @@ done as follows:
 \subsection{Diagnostics Generation}
 \label{sec:diagnostics_generation}
 
-The generation of the diagnostics is the final step in \emph{Model Judge}'s
+The generation of the diagnostics is the final step in Model Judge's
 algorithm. The goal is to generate human-friendly diagnostics by identifying the
 differences between the ATD and the business process model. Most diagnostics can
 be computed a two granularity levels. Either at a general level --e.g. The
@@ -323,7 +319,7 @@ process is missing \emph{some} activities--, or at a concrete level --e.g. The
 process is missing a label about the ``Patient Examination''--. The computation
 of the diagnostics uses the information in the ATD, the analysed process model
 and the alignment between the two. In this section we detail which diagnostics
-are currently generated by \emph{Model Judge} and how they are computed.
+are currently generated by Model Judge and how they are computed.
 
 \subsubsection*{Syntactic Diagnostics}
 The computation of syntactic diagnostics only requires the
@@ -348,7 +344,7 @@ encouraged to write two separate activities. However, this technique can be
 adapted so any organization can enforce a label writing style in a flexible way.
 This adaptation would consist of expanding the grammar to handle the newly
 accepted new label styles, if necessary, and adding those styles to a list in
-\textit{Model Judge}'s configuration files.
+Model Judge's configuration files.
 
 \subsubsection*{Semantic Diagnostics}
 Semantic checks are concerned with the underlying process
@@ -407,7 +403,7 @@ input of the alignment algorithm.
 Figure~\ref{fig:alignment_overview} shows an overview of the alignment approach
 presented in \cite{10.1007/978-3-319-59536-8_26}. Next, we cover each of the
 steps in the algorithm, and the necessary addaptations that were performed to
-use the algorithm as part of \emph{Model Judge}:
+use the algorithm as part of Model Judge:
 
 \begin{figure}[htb]
   \centering
@@ -499,7 +495,7 @@ certain linguistic feature:
            ``\textit{medical practitioner}'' (\textit{10305802-n})}
 \end{description}
 
-By using ATDs, which are accurately annotated, this feature extraction phase is
+By using ATD, which are accurately annotated, this feature extraction phase is
 improved. Particularly, the high level features from the text can be reliably
 extracted for all \emph{Action}s, since they are available through the
 \emph{Agent} and \emph{Patient} relations. This means the algorithm doesn't need
@@ -547,7 +543,7 @@ constraints and \textit{ordering} constraints.
 \item[Process step ordering.]{Assuming there are no contradictions between the
     control flow of the ATD and the process model, we can restrict the set of
     possible alignments for those that would violate the natural order of the
-    process. This is one of the points where \emph{Model Judge}'s approach
+    process. This is one of the points where Model Judge's approach
     differs from the technique described in \cite[Section
     5.6]{10.1007/978-3-319-59536-8_26}, where the temporal relations in the text
     could not be computed. By using accurately annotated ATD, we are able to
@@ -579,7 +575,7 @@ to be fast enough for the use case of student evaluation\footnote{Using the
 \label{sec:predictors}
 
 This is one of the key steps in order to compute the \emph{unnecessary activity}
-diagnostics in \emph{Model Judge}. The optimal alignment described in the
+diagnostics in Model Judge. The optimal alignment described in the
 previous section, is computed under the assumption that the process model and
 the ATD describe the same set of process activities. However, this is not the
 case when evaluating partial models performed by students. Particularly, the
@@ -593,7 +589,7 @@ following inconsistencies may result in an alignment that is incorrect:
   \item The order in which the activities are described in the model 
 \end{enumerate}
 
-\emph{Model Judge} works by considering the alignment in order to generate
+Model Judge works by considering the alignment in order to generate
 its diagnostics corresponding to points \emph{1} and \emph{2}. This is explained
 in further detail in Section~\ref{sec:diagnostics_generation}. However, the
 alignment computed at this point is not sufficient to determine which
@@ -634,7 +630,7 @@ process model. However, using a relative predictor alone like \textit{p-rel-S} w
 fail in the event that all the activities introduced by the user are
 unnecessary. In order to have a predictor that is robust to such scenarios, we
 take the harmonic mean between \textit{p-rel-S} and \textit{p-sim}, using
-\textit{p-harm} as the predictor for \emph{Model Judge}
+\textit{p-harm} as the predictor for Model Judge
 
 
  
@@ -644,12 +640,12 @@ take the harmonic mean between \textit{p-rel-S} and \textit{p-sim}, using
 \section{Experiments}
 \label{sec:modeljudge_results}
 
-\todo{Describe dataset in further detail}
+%\todo{Describe dataset in further detail}
 
-The \textit{Model Judge} has been tested in two separate modeling courses. The first was performed on the Technical University of Denmark (DTU) during February 2018. as part of a graduate course on business process management. 
+Model Judge has been tested in two separate modeling courses. The first was performed on the Technical University of Denmark (DTU) during February 2018. as part of a graduate course on business process management. 
 The second course was performed at the Catholic University of Santa Mar\'ia (UCSM) in Peru during March 2018 as part of a practical session in the Business Process Management course in the Computer Science degree.
 
-In order to validate how the \textit{Model Judge} helps novice modelers, we performed two evaluations.  The first one consisted in analyzing the recorded data from the modeling sessions (Section \ref{sec:data_analysis}). The second evaluation arises from a survey that was handed to the students at the end of the modeling course (Section \ref{sec:questionaires}). Below, we detail the results obtained in both evaluations.
+In order to validate how the Model Judge helps novice modelers, we performed two evaluations.  The first one consisted in analyzing the recorded data from the modeling sessions (Section \ref{sec:data_analysis}). The second evaluation arises from a survey that was handed to the students at the end of the modeling course (Section \ref{sec:questionaires}). Below, we detail the results obtained in both evaluations.
 
 \subsection{Analysis of the Modeling Session Data}
 \label{sec:data_analysis}

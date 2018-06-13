@@ -13,24 +13,98 @@
 \usepackage{booktabs}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{afterpage}
 \addbibresource{./refs.bib}
-%\DeclareUnicodeCharacter{20AC}{\euro{}}
 
-\title{TFG - Memòria}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+\title{MIRI Master Thesis: Model-Agnostic Process Modeling}
 \author{Josep Sànchez Ferreres}
-\date{April 2016}
+\date{June 2018}
 
 \begin{document}
 
-\cite{gurobi}
+\begin{titlepage}
 
-\maketitle
+    \begin{center}
+        \huge
+        
+        \includegraphics[width=\textwidth, height=0.1981\textwidth]{figures/logo3}
+
+        \vspace{3.5cm}
+
+        \textsf{\textbf{Model-Agnostic Process Modeling}}
+
+        \vspace{3cm}
+
+        \textsf{\textbf{Master Thesis}}
+
+        \textsf{\textbf{MIRI-DS}}
+
+        \vfill
+        
+        \flushleft{
+        \Large
+        \textsf{\textbf{Student:} Josep S\`anchez Ferreres\\
+        \textbf{Advisors:} Josep Carmona Vargas\\
+         ~~~~~~~~~~~~~~Llu\'is Padr\'o Cirera\\
+        %Facultat d'Informàtica Barcelona\\
+        June 18th de 2018}
+        }
+
+        \vspace{1cm}
+        
+    \end{center}
+    
+\end{titlepage}
+
+\blankpage
+
+\import{sections/}{abstract.tex}
+\clearpage
+
+\import{sections/}{agraiments.tex}
 
 \tableofcontents
 
-\import{sections/}{cover.tex}
+\begingroup
+\makeatletter
+%\listoffigures
+\chapter*{List of Figures and Tables}
+\@starttoc{lof}
+\let\clearpage\relax
+%\listoftables
+\@starttoc{lot}
+\makeatother
+\endgroup
 
-\import{sections/}{abstract.tex}
+
+%TODO: El numero de pagina ha d'anar coherentment a les pagines de títol i les de no-títol
+% Paràmetres de header i footer.
+% NOTA: Si no definim com son els headers fins que no ha passat l'abstract l'abstract no tindrà headers 
+
+\pagestyle{fancy}
+\fancyheadoffset{0.08\textwidth} %Mida del header
+\fancyhead{}
+\fancyhead[LO,LE]{\normalsize{MIRI Master Thesis: Model-Agnostic Process Modeling}}
+\fancyhead[RO,RE]{Chapter \thechapter}
+\fancyfootoffset{0.08\textwidth} % Mida del footer
+\fancyfoot{}
+\fancyfoot[RE,RO]{\thepage}
+\fancyfoot[LO,LE]{}
+
+\fancypagestyle{plain}{
+    \fancyhead{}
+    \fancyfoot{}
+    \fancyfoot[RE,RO]{\thepage}
+    \fancyfoot[LO,LE]{}
+    \renewcommand{\headrulewidth}{0pt}
+}
 
 \import{sections/}{introduction.tex}
 
@@ -45,5 +119,11 @@
 \import{sections/}{conclusions.tex}
 
 \printbibliography[heading=bibliography]{}
+
+\clearpage 
+\appendix
+
+\import{sections/}{sourcecode.tex}
+
 
 \end{document}

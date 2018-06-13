@@ -1,2 +1,72 @@
 \chapter{Conclusions and Future Work}
 \label{cha:conclusions}
+
+This Master Thesis project has been divided in three major goals. The design of
+ATD, the implementation of ATDlib, and the development of the algorithm behind
+the Model Judge platform. We conclude that the three main initial goals have
+been achieved successfully.
+
+% ATD
+
+% - Robust and understandable way to document business processes 
+% - Language is still in its early stages. Needs to solidify, for that, we need to
+% test it by annotating models.
+% - There is a lack of training data for NLP in BPM. Mainstream adoption of ATD
+% could change that.
+
+\emph{ATD} are a novel alternative for business process documentation based on natural
+language. Being a more understandable alternative to classical graphical and
+rule-based notations, we expect ATD to be a useful documentation format for
+organizations, as well as enable the same automation capabilities as more formal
+languages, like BPMN. Finally, being annotated texts, mainstream adoption of ATD
+can help fill the lack of training data in the field of Natural Language
+Processing for Business Process Management. Future work in the development of
+ATD will involve solidification of the language: Deploy ATD-based solutions in
+different application domains to see how to adapt the base language to the wide
+variety of requirements in organizations.
+
+% ATDlib
+
+% - Importance of a reference implementation in ATDlib.
+% - For now it's just a prototype, we must look carefully how to integate into
+% many application domains
+% - Also provide functionality to work with ATD expansions as part of ATDlib.
+% - Although the backend is implemented in Clojure, include a future Java API to
+% aid in adoption in organizations using other JVM languages (Scala, Kotlin...).
+% - Provide some kind of integration with annotation sofware. Brat is
+% half abandoned, TAG looks promising
+
+\emph{ATDlib} is the reference implementation of ATD. It can parse, automatically
+annotate and convert ATD to various useful representations. The current
+implementation is still in a very early stage, but it has been sucessfully
+deployed in the Model Judge platform. However, further effort is necessary to
+allow easy integration of ATDlib into any BPM system. One of the action points
+in that direction is to provide a Java interface into the library to aid in ATD
+adoption for organizations using any other JVM language. Another remaining
+functionality is to add support for ATD extensions into the library. Finally,
+to allow for easy generation and annotation of ATD, a visual front-end must be
+developed by fully integrating ATDlib into a text annotation interface.
+
+% Model Judge
+
+% - ATD in a real use-case.
+% - helps students in the classroom with a high degree of satisfaction.
+% - Has been tested in two real courses. More to come.
+% - The analytics information has provided valuable insights. Find a good metric
+% to evaluate whether students consider the feedback and how that affects their performance
+% - Think about Model Judge outside of teaching. Assisted modeling software.
+% - More diagnostic types need to be added. Especially improve control flow detection
+
+\emph{Model Judge} can helps students learn modeling notations, such as BPMN and
+has already been tested in two pilot university courses. It is thus an example of
+the usage of Annotated Textual Descriptions in a real use-case. Future
+work directions with Model Judge will come in two ways. In one hand, we want to
+expand the usage of \emph{Model Judge} to more courses and universities. This
+will require considering new kinds of useful diagnostics, and especially
+implementing a robust way for fine-grained detection of control flow
+inconsistencies in process models. On the other hand, we want to get more
+detailed insights into the students' \emph{process of process modeling}. By
+collecting anonymised and consented analytics information with \emph{Model
+  Judge}, we believe we can help get a better grasp of how people learn to model
+information, which will in turn help us develop better and more intuitive
+models.

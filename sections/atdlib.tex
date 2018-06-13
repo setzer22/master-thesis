@@ -3,8 +3,11 @@
 
 This chapter presents \emph{ATDlib}, a reference implementation of the ATD
 langauge described in Chapter~\ref{cha:atd} which implements parsing, automatic
-generation and transformations of ATD. Section~\ref{sec:architecture} focuses on
-the several tools provided in ATDlib and offers implementation details. Then,
+generation and transformations of ATD. ATDlib is built using
+\emph{Clojure}\cite{Hickey:2008:CPL:1408681.1408682}, which is compatible with
+the Java virtual machine. An idiomatic Java wrapper is planned, but falls
+outside the scope of this project. Section~\ref{sec:architecture} focuses on the
+several tools provided in ATDlib and offers implementation details. Then,
 Section~\ref{sec:atdlib_tour} shows an overview of the process of creating an
 ATD from raw text data.
 
@@ -75,7 +78,56 @@ data to the algorithms in the \emph{NLP4BPM} project.
   \label{fig:atdlib_uml}
 \end{figure}
 
-\todo{Explain ATD2FL algorithm!!!}
+\subsection{Converting ATD to Freeling Semantic Graphs}
+
+\todo{cross-reference this section above}
+
+ATD and Freeling semantic graphs hold very similar information. Given the
+graph-based nature of both representations, this conversion can be thought of as
+a \emph{schema mapping} problem. However, some aspects need to be taken into
+consideration to perform the conversion in a way that improves the quality of
+the algorithms in the \emph{NLP4BPM} project, which is one the main application of
+this library.
+
+The conversion performed by the \texttt{atd2fl} module consists of
+translating the concepts in ATD to a semantic graph, which consistis of the
+following information:
+
+\begin{itemize}
+\item A list of \emph{entities}, which are nodes in the graph that correspond
+  to the groups of connected components of \emph{entities} in the ATD when
+  considering the \emph{coreference} relation. 
+\item A list of \emph{frames}, nodes that correspond to \emph{action}
+  annotations in the ATD
+\item Relations between entities and frames. Currently supported are
+  \emph{A0} (agent) and \emph{A1} (patient). However, some ATD expansions
+  could map new relations such as the \emph{AM-MNR} (manner adjunct) or
+  \emph{AM-LOC} (location adjunct).
+\end{itemize}
+
+But in order to have a complete textual representation for other tools to use,
+the following information must also be extracted from an ATD:
+
+\begin{itemize}
+\item Lists of paragraphs, sentences and tokens
+\item For each token \begin{itemize}
+  \item The word's form and lemma.
+  \item The part-of-speech (PoS) of the word.
+  \item For nouns, verbs, adjectives and adverbs; a WordNet reference to the
+    sense of the word.
+  \end{itemize}
+\end{itemize}
+
+This information is necessary because FreeLing's semantic graph is expressed by
+referencing certain words in the text, but including this information in
+the ATD would require extensive unnecessary annotation, which doesn't align well
+with the ATD's rationale. That is why \texttt{atd2fl} performs a low-level
+analysis on the text (up to the sense disambiguation stage) using FreeLing to
+automatically extract that information. This low-level information is then
+merged with the ATD, in order to build a full semantic graph. During this
+conversion, only the tokens that are part of some annotation in the ATD are kept
+in the final structure, and all other words are removed.
+
 
 
 \section{Creating an ATD with \emph{ATDlib}}

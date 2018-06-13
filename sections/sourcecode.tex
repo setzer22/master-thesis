@@ -1,0 +1,48 @@
+\chapter{Source Code}
+
+All the source code that has been developed for this Master Thesis is available
+as a Git repository at \url{https://github.com/setzer22/master_thesis_source}.
+This appendix covers the relevant parts of the project and the necessary
+dependencies to build and execute it.
+
+The repository presented consits of three main projects, divided in three
+subfolders in the repository root. All three projects are built using Maven and
+follow the Maven convention of folder structure: A \texttt{pom.xml} file
+specifies the build instructions and dependencies, and the
+\texttt{src/main/\{java,clojure\}} subfolders contain the source code for the
+corresponding project.
+
+\begin{description}
+\item[\texttt{nlp4bpm\_commons}]{This project contains several utilities that
+    are used across atdlib and all the algorithms of the \emph{NLP4BPM} project.
+    The relevant source files for this project are \texttt{freeling\_api.clj} and
+    \texttt{Freeling.clj}, which wrap FreeLing's JNI interface and
+    \texttt{label\_parser.clj} which implements the custom SRL module for BPMN
+    labels described in Section~\ref{sec:process_model_analysis}.}
+\item[\texttt{atdlib}]{ATDlib implements all functionalities described in
+    Chapter~\ref{cha:atdlib}. The source file names correspond to the same
+    module names used in this document and thus should be self-explanatory.}
+\item[\texttt{modeljudge}]{This project contains the implementation for the
+    \emph{Model Judge} algorithm. The major part of this module consists of an
+    adaptation of the alignment between textual descriptions and BPMN process
+    models. The parts that are specific to \emph{Model Judge} are in the
+    \texttt{core\_students.clj} namespace.}
+\end{description}
+
+To build some of the projects, some Java dependencies not available in any maven
+repository must be included. These are distributed inside the \texttt{jars}
+folder of the relevant project, with a bash script that installs them into the
+local Maven repository. Additionally, there are two native dependencies that
+cannot be bundled into the project due to size and/or license restrictions:
+FreeLing 4.0 or
+higher\footnote{http://nlp.lsi.upc.edu/freeling/index.php/node/30} and the
+Gurobi ILP solver\footnote{http://www.gurobi.com/downloads/download-center}.
+Please note that Gurobi requires an academic or commercial license. These must
+be installed in the target system and listed in the system's \texttt{PATH} and
+\texttt{LD\_LIBRARY\_PATH} variables (or the equivalent in Windows operating
+systems).
+
+
+
+
+

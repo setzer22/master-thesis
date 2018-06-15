@@ -33,13 +33,21 @@ operations. Business process management is a field of research focused in how to
 business processes.
 
 Business Process Management approaches processes at three different
-levels\cite{mendling2017challenges}:
+levels~\cite{mendling2017challenges}, illustrated in Figure~\ref{fig:threelevels}:
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/bpm_three_layers}
+  \caption{The three abstraction levels of business process management. Adapted
+    from the figure in~\cite{mendling2017challenges}.}
+  \label{fig:threelevels}
+\end{figure}
 
 \begin{description}
   \item[Multi Process Management]{ focuses on the identification of major
-      processes of an organization and their priorization. This task
+      processes of an organization and their prioritization. This task
       involves the inspection of the data repositories of a company, such as
-      \emph{Data Warehouses}, in order to discover and extract process
+      \emph{Data Warehouses}, in order to discover and extract 
       what are the relevant business processes.}
   \item[Process Model Management]{ is concerned with the management of a single
       Business Process Model. This involves \emph{discovering} the process and
@@ -55,12 +63,13 @@ levels\cite{mendling2017challenges}:
 
 BPM is a very wide area of research, with several sub-fields focusing on
 different aspects of business processes. From very theoretical research based on
-Petri net theory\cite{citation needed}, to empirical psychological research
-about the \emph{process of process modeling}\cite{citation needed}. The project
-described in this Master Thesis is englobed in an emerging
-field\cite{vanderaa2018challenges} in BPM, focused in the relation between human
+Petri net theory~\cite{van1998application}, to empirical psychological research
+about the \emph{process of process modeling}~\cite{pinggera2010investigating}.
+The project described in this Master Thesis is encompassed in an emerging field
+\cite{vanderaa2018challenges} in BPM, focused in the relation between human
 natural language and the formal methods found in other fields of research, such
-as \emph{Process Mining}\cite{van2016process}.
+as \emph{Process Mining}~\cite{van2016process}.
+
 
 
 %Among all the different sub-fields of BPM, \emph{Process Mining} deserves
@@ -101,19 +110,19 @@ as \emph{Process Mining}\cite{van2016process}.
 
 This Master Thesis presents an alternative to conventional Business Process
 Notations (BPN). In the literature, one can find numerous approaches to BP modelling
-techinques. In their survey\cite{10.1007/978-3-540-72035-5_7}, Ruopeng Lu and
-Shazia Sadiq, classify Business Process Notations in graph-based and rule-based.
+techinques. In their survey~\cite{10.1007/978-3-540-72035-5_7}, Ruopeng Lu and
+Shazia Sadiq, classify Business Process Notations in graph-based and rule-based notations.
 
 Graph-based BPN represent business processes as a control flow graph. They are
-heavily inspired, and usually convertible to Petri Nets\cite{lohmann2009petri},
+heavily inspired, and usually convertible to Petri Nets~\cite{lohmann2009petri},
 a formal mathematical model usually employed to describe distributed systems. In
 graph-based BPN, the process is described as a sequence of linked nodes,
 indicating sequential, alternative or concurrent execution paths. To this day,
 the most prominent graph-based business process notation is the Business Process
-Model and Notation (BPMN)\cite{chinosi2012bpmn}, with its first version
+Model and Notation (BPMN)~\cite{chinosi2012bpmn}, with its first version
 published in 2011. However, before BPMN's quick rise in popularity, the Business
 Process Execution Language (BPEL) had the most widespread usage. Several other
-alternatives like YAWL \cite{van2005yawl} have been proposed both from the
+alternatives like YAWL~\cite{van2005yawl} have been proposed both from the
 academics and the industry. Figure~\ref{fig:bpn_comparison_graph} shows a
 comparison between the three aforementioned graph-based business process
 notations. Despite their differences, there is a minimum subset of elements that
@@ -124,8 +133,6 @@ branches the execution in two alternative paths, and only one of them may be
 executed for any process instance. \textit{(iii)} The \emph{AND} split, which
 branches the execution into two concurrent paths, the execution of which can be
 interleaved arbitrarily.
-
-
 
 \begin{figure}[htb]
   \begin{minipage}{.65\textwidth}
@@ -150,37 +157,39 @@ Graph-based alternatives is that they allow more flexible behaviour to be
 described in a more natural way, at the cost of higher verbosity and being more
 error prone. For instance, consider a variation of the process described in
 figure \ref{fig:bpn_comparison_graph} where the order of the examinations is
-irrelevant, but it is mandatory for the doctor to sterylise the medical
+irrelevant, but it is mandatory for the doctor to sterilise the medical
 equipment between the two. In graph-based systems, duplication of activities
 cannot be avoided to express the semantics of this rule. On the other hand, most
-rule-based systems can introduce the rule that task $sterylize$ must always
+rule-based systems can introduce the rule that task $sterilise$ must always
 happen between two examinations.
 
 \section{Natural Language Processing}
 \label{sec:background_nlp}
 
-\emph{Natural Language Processing} is a field of artificial intelligence which
+\emph{Natural Language Processing} (NLP) is a field of artificial intelligence which
 addresses the interactions between computers and human languages. NLP focuses on
 many problems at different levels of abstraction, from the purely linguistic
-ones like morphosyntactic analysis or determining the part-of-speech of words
-to very challenging tasks such as the automatic summarization of news articles.
+ones like morphological and syntactic analysis or determining the part-of-speech
+of words to very challenging tasks such as the automatic summarizing of news
+articles.
+
 
 Those tasks that go beyond parsing at a syntactic level and focus on the
 \emph{semantics} of written text are usually classified under the field of
 \emph{Natural Language Understanding} (NLU). The focus in NLU is to build
 complete semantic representations of texts in a machine-friendly format. It is
-thus an AI-complete\cite[Section 1]{ai_completeness} problem, since text are
+thus an AI-complete~\cite[Section 1]{ai_completeness} problem, since text are
 addressed to human readers under the assumption of common sense and world
 knowledge: Things very difficult to encode in a computer program. 
 
 NLP techniques are applied to address a variety of use cases in the context of
 Business Process Management. Several of these focus on the text contained in
 process models themselves. This includes a variety of works that focus on the
-quality of process model labels, for example by detecting violations of labeling
+quality of process model labels, for example by restricting the use of certain
+labeling
 conventions~\cite{becker2009,leopold2013detection,vandervos1997verification},
-inconsistent use of terminology~\cite{koschmider2007}, or common modeling
-errors~\cite{gruhn2011detecting}. Other approaches use NLP to augment process
-models with semantic or ontological
+or common modeling errors~\cite{gruhn2011detecting}. Other approaches use NLP to
+augment process models with semantic or ontological
 information~\cite{leopold2015towards,francescomarino2009supporting,born2007userfriendly}.
 
 Other use cases involve texts that exist outside of process models. Several
@@ -188,21 +197,21 @@ approaches extract process models from different kinds of text, such as from use
 cases~\cite{sinha2010use}, group stories~\cite{gonccalves2009business}, or
 methodological descriptions~\cite{epure2015automatic},  while others take
 general textual process descriptions as
-input~\cite{ghose2007process,friedrich2011process}. However,  these approaches
-have been found to produce inaccurate models, which require extensive manual
-revision~\cite{selway2015formalising}. Other use cases involving texts include a
+input~\cite{ghose2007process,friedrich2011process}, that is also the case of the
+\emph{Text2BPMN} algorithm in \emph{NLP4BPM}. However,  these approaches
+have been found to produce inaccurate results, which require manual
+inspection~\cite{selway2015formalising}. Other use cases involving texts include a
 technique that considers \textit{work instructions} when querying process
 repositories~\cite{leopold2017searching} for conformance checking against
 textual process descriptions~\cite{vanderaa2018checking}.
 
-
 \subsection{Steps of Language Analysis}
 
- The NLP processing software used in this work is
- FreeLing\footnote{\url{http://nlp.cs.upc.edu/freeling}}~\cite{PadroS12}, an
- open--source library of language analyzers providing a variety of analysis
- modules for a wide range of languages. More specifically, the natural language
- processing layers used in this work are:
+The NLP processing software used in this work is
+FreeLing\footnote{\url{http://nlp.cs.upc.edu/freeling}}~\cite{PadroS12}, an
+open--source library of language analyzers providing a variety of analysis
+modules for a wide range of languages. More specifically, the natural language
+processing layers used in this work are:
  
 \begin{description}
 \item[Tokenization \& sentence splitting:] Given a text, split the basic lexical
@@ -219,9 +228,9 @@ textual process descriptions~\cite{vanderaa2018checking}.
   \textit{numeric-expression}, \textit{currency-expression}, etc.
 \item[Word sense disambiguation:] Determine the sense of each word in a text
   (e.g. the word \textit{crane} may refer to an animal or to a weight-lifting
-  machine). We use WordNet \cite{fellbaum98} as the sense catalogue and synset
+  machine). We use WordNet~\cite{fellbaum98} as the sense catalogue and synset
   codes as concept identifiers.
-\item[Constituency/dependency parsing:] Given a sentence, get its syntatic
+\item[Constituency/dependency parsing:] Given a sentence, get its syntactic
   structure as a constituency/dependency parse tree.
 \item[Semantic role labeling (SRL):] Given a sentence identify its predicates and the
   main actors in each of them, regardless of the surface structure of the
@@ -251,14 +260,14 @@ textual process descriptions~\cite{vanderaa2018checking}.
 Creating annotated versions of texts is usual in NLP field, where many
 approaches are based on machine learning. Thus, to train a PoS-tagger, text
 where each word has been annotated with its part-of-speech, is required.
-Similarly, parsers, semantic role labellers, or coreference resolution systems,
+Similarly, parsers, semantic role labelers, or coreference resolution systems,
 need example texts where this linguistic levels have been annotated by humans.
 These annotated corpora are then used to train the NLP analyzers and to
 evaluate their performance.
 
 Thanks to this need for annotated data in NLP, convenient tools have been
 developed to ease the annotation task. One of them is
-\emph{Brat}\cite{stenetorp2012brat}\footnote{\url{http://brat.nlplab.org}}, a
+\emph{Brat}~\cite{stenetorp2012brat}\footnote{\url{http://brat.nlplab.org}}, a
 configurable environment that allows the annotation of texts with labelled
 spans, and relations. Figure~\ref{fig:brat} shows Brat being used to annotate a
 scientific text with very specific concepts from the field of biology.
@@ -272,17 +281,15 @@ scientific text with very specific concepts from the field of biology.
   \label{fig:brat}
 \end{figure}
 
-A more recent alternativ for text annotation are Text Annotation Graphs (TAG)
+A more recent alternative for text annotation are Text Annotation Graphs (TAG)
 \cite{DBLP:journals/corr/abs-1711-00529}. TAG is a web-based software which
-conceptually improves upon Brat two ways: \textit{(i)} It provides the
+conceptually improves upon Brat in two ways: \textit{(i)} It provides the
 functionality of representing complex relationships between text elements,
 allowing the definition of relationships between relationships themselves
 (semantic hypergraphs). \textit{(ii)} The visualization tool offers a more
 ergonomic and flexible representation of the annotated texts, allowing the
 repositioning of words, or filtering the view to only show a subset of the
-annotated information. Figure~\ref{fig:tag} shows
-a text annotated using TAG.
-
+annotated information. Figure~\ref{fig:tag} shows a text annotated using TAG.
 
 \begin{figure}[htb]
   \centering
@@ -296,7 +303,7 @@ In this work, we present Annotated Textual Descriptions as a business process
 modeling language. ATD are based on text annotations, but its main purpose
 differs from the typical use cases of annotations. Ideally, ATD would be
 automatically performed by an NLP tool, instead of being used as training data.
-However, given the limitations of the current NLP state-of-the-art, we will
+However, given the limitations of the current NLP state of the art, we will
 resort to a certain amount of human annotation to improve the quality of our
 semantic representation. This is discussed in further detail in Chapter~\ref{cha:atd}.
 
@@ -306,21 +313,21 @@ semantic representation. This is discussed in further detail in Chapter~\ref{cha
 When multiple business process representations are used inside an organization,
 it becomes very important to ensure availability and consistency of the existing
 documentation. The \emph{Natural Language Tools for Business Process Management}
-(\emph{NLP4BPM}) project, developed by our group in the Polythecnic University
-of Catalonia, aims to solve several related problems in this doman.
+(\emph{NLP4BPM}) project, developed by our group in the Polytechnic University
+of Catalonia, aims to solve several related problems in this domain.
 
 In \emph{NLP4BPM}, several different approaches are taken in order to aid
 organizations in managing multiple representations of processes:
 
 \begin{description}
-\item[\emph{Text2BPMN}]{Converting a natural langauge textual description into a
+\item[\emph{Text2BPMN}]{Converting a natural language textual description into a
   BPMN business process model.}  
 \item[\emph{BPMN2Text}]{Converting a BPMN business process model into a
     human-readable textual description.}  
 \item[\emph{BPMNvsText}]{Computing an \emph{alignment} between a model and a
     textual description in order to compare them. An alignment is a mapping
     between tasks in the model and sentences in the text. The implementation
-    follows the technique presented in \cite{10.1007/978-3-319-59536-8_26}.}  
+    follows the technique presented in~\cite{10.1007/978-3-319-59536-8_26}.}  
 \item[\emph{BPMNvsBPMN}]{Computes an alignment between two different BPMN
     models. Here the alignment is between the set of tasks of the two process
     models. The techniques implemented in this module are based on Relaxation
@@ -355,7 +362,13 @@ One of the goals of this Master's thesis is to link Annotated Textual
 Descriptions, the main contribution presented in this work, with FreeLing
 semantic graphs. This will allow using ATD in order to improve the robustness of
 the algorithms presented above without having to modify them.
-Chapter~\ref{cha:atdlib} describes in more detail how this is achieved.
+Section~\ref{sec:atd2fl} describes how this is achieved.
 
 %\section{Ontologies}
 %\label{sec:background_ontologies}
+
+%%% Local Variables:
+%%%   mode: latex
+%%%   mode: flyspell
+%%%   ispell-local-dictionary: "english"
+%%% End:

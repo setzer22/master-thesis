@@ -13,7 +13,7 @@ difficulties in the automatic analysis of such elements. Part of this
 Master thesis' work consisted in exploring a practical application of Annotated
 Textual Descriptions by designing the main algorithm behind \emph{Model
   Judge}. Model Judge is a web platform supporting
-students idirectorn the creation of business process models by automatically detecting
+students in the creation of business process models by automatically detecting
 and reporting the most common sources of semantic and pragmatic
 errors in modeling The motivation behind the platform and its functionalities
 are discussed in
@@ -56,7 +56,7 @@ used to support multiple students simultaneously.
 
 Model Judge is based on computing quality diagnostics on business process
 models. Instead of providing the user with a difficult to interpret numerical
-score, we believe more detailed feedback helps students and contrinbutes to
+score, we believe more detailed feedback helps students and contributes to
 continuous self-improvement.
 
 By observing the grading process of several modeling courses, we have
@@ -64,10 +64,10 @@ established a set of diagnostics that are suitable for being computed
 automatically. We have split these diagnostics in three different categories:
 \emph{Syntactic} diagnostics consider the structure of the model.
 \emph{Pragmatic} diagnostics verify the phrasing of the process model labels and
-can be tuned to enforce certain grammatical rules. Finally, \emph{semantic}
+can be tuned to enforce certain grammatical rules. Finally, \emph{Semantic}
 diagnostics check if there is no missing information from the underlying process
-and all the information provided is relevant. Next, we detail the concrete
-diagnostics for the three aforementioned types.
+and all the information provided is relevant. Next, the concrete
+diagnostics for the three aforementioned types are detailed.
 
 \subsubsection{Syntactic Diagnostics}
 
@@ -76,34 +76,41 @@ Syntactic diagnostics identify common patterns that typically result in
 less understandable and maintainable process models.
 
 \begin{description}
-\item[Gateway Reuse and Implicit Gateways.]{Gateway reuse re\-fers to a gateway
-    that acts both as a \emph{split} (more than two ouptuts) and a \emph{join}
+\item[Gateway Reuse and Implicit Gateways.]{Gateway reuse refers to a gateway
+    that acts both as a \emph{split} (more than two outputs) and a \emph{join}
     (more than two inputs). Implicit Gateways exist when an activity has
     multiple input or output flows. The semantics for these two constructs are not
-    clear and can lead to hidden modeling errors. Because of that, avoiding gateway reuse and implicit
-    gateways is a well-known best practice in business process models~\cite{MendlingRA10}.}
+    clear and can lead to hidden modeling errors. Because of that, avoiding
+    gateway reuse and implicit gateways is a well-known best practice in
+    business process models~\cite{MendlingRA10}.}
 \item[Non-Natural Loops.]{Due to their similarity, some desirable properties of
     program's control flow graphs are also relevant in the context of process
     model diagrams. Ideally, process models should contain only of \emph{Natural
       Loops}. That is, there is only a single way to enter the loop. 
       %That is, all loops should jump back to the beginning of a \emph{SESE} (Single-Entry, Single-Exit) region of the process~\cite{MendlingRA10}.
-      We have observed non-natural loops are a common pattern among novice students.}
-\item[Soundness.]{A well-known desirable property of process models is {\em soundness}~\cite{AalstHHSVVW11}, which guarantee the process model is free from livelocks, deadlocks, and other anomalies that can be detected without domain knowledge.}
+      We have observed non-natural loops are a common pattern among novice
+      students.}
+\item[Soundness.]{A well-known desirable property of process models is {\em
+      soundness}~\cite{AalstHHSVVW11}, which guarantee the process model is free
+    from livelocks, deadlocks, and other anomalies that can be detected without
+    domain knowledge.}
 \end{description}
 
 \subsubsection{Pragmatic Diagnostics}
 
 Process model diagrams define a large portion of their semantics using natural
-language. It is desirable to restrict the language to a strict writing style (e.g, the {\em verb-object} rule in~\cite{MendlingRA10}, G6), in
-order to avoid ambiguous phrasing~\cite{Leopold0M12}. A simple and strict style is also important
-when considering automatic analysis of the process model language. For example, 
-while it is acceptable in the text to include the sentence: \emph{``The latter is then
-responsible for taking a sample to be analysed in the lab later''}, having that 
-sentence as an activity label in the process model adds unnecessary complexity,
-since the aim is to have label text to be as simple as possible.
+language. It is desirable to restrict the language to a strict writing style
+(e.g, the {\em verb-object} rule in~\cite{MendlingRA10}, G6), in order to avoid
+ambiguous phrasing~\cite{Leopold0M12}. A simple and strict style is also
+important when considering automatic analysis of the process model language. For
+example, while it is acceptable in the text to include the sentence: \emph{``The
+  latter is then responsible for taking a sample to be analysed in the lab
+  later''}, having that sentence as an activity label in the process model adds
+unnecessary complexity, since the aim is to have label text to be as simple as
+possible.
 
-Previous studies \cite{mendling2010activity, Leopold0M12, leopold2013detection} have
-established the common structures in label descriptions. However, these
+Previous studies \cite{mendling2010activity, Leopold0M12, leopold2013detection}
+have established the common structures in label descriptions. However, these
 structures are not always followed by novice students. Because of that, an
 automatic detection of invalid writing styles is beneficial for student
 self-improvement.
@@ -111,32 +118,28 @@ self-improvement.
 \subsubsection{Semantic Diagnostics}
 
 A process model diagram has to communicate the semantics of the underlying
-process in a clear and unambiguous way. 
-All the information provided has to be
+process in a clear and unambiguous way. All the information provided has to be
 correct, and in the right order. On the other hand, unnecessary information
-introduces noise that can generate confusion. Semantic diagnostics help enforcing these properties on the process model.
+introduces noise that can generate confusion. Semantic diagnostics help
+enforcing these properties on the process model.
 
 \begin{description}
-\item[Missing/Unnecessary activities.]{This problem arises when a relevant activity of the
-    process is omitted from the process model, or symmetrically when additional activities are added which are either wrong or add no relevant
-    information. This can be caused by an
-    oversight or a poor understanding of the process being modeled.}
-  
-% \item[Unnecessary activities.]{This problem occurs when additional activities
-%     are added to the process, which are either wrong or add no relevant
-%     information.}
+\item[Missing/Unnecessary activities.]{This problem arises when a relevant
+    activity of the process is omitted from the process model, or symmetrically
+    when additional activities are added which are either wrong or add no
+    relevant information. This can be caused by an oversight or a poor
+    understanding of the process being modeled.}
 
 \item[Missing/Unnecessary Roles.]{When process models use role information,
     such as swimlanes in BPMN, the same diagnostics of \emph{missing} 
     and \emph{unnecessary} roles can be applied as well, to ensure
     all the relevant actors are properly modeled.}
-  
-\item[Control-Flow Consistency.]{All the information in the process model
-    should be consistent with the control flow of the process being described. 
-    If some temporal relationship described in the text is not accurately incorporated in the process model, then a control-flow consistency violation would be communicated to the novice modeler.}  
-%     the activities
-%     describing that part of the text should be in the correct position in 
-%     the control flow graph.}
+
+\item[Control-Flow Consistency.]{All the information in the process model should
+    be consistent with the control flow of the process being described. If some
+    temporal relationship described in the text is not accurately incorporated
+    in the process model, then a control-flow consistency violation would be
+    communicated to the novice modeler.}
 \end{description}
 
 \section{A Tour through \emph{Model Judge}}
@@ -148,26 +151,29 @@ the process of creating a process model, and instructors in the task of
 designing modeling activities in an agile way. 
 
 The application requires registration, and users with the \emph{instructor} role
-are able to create and manage courses. However, the functionality to include new
-exercises is restricted to the developers of the application.
+are able to create and manage courses. Additionally, support is planned to allow
+instructors to create and manage their exercises for the application, in the
+form of ATD, which is currently restricted to the developers of the application.
 
 All registered users are able to access the exercise list and attempt solving
 any of them. After selecting an exercise, the user is brought to the modeling
-view, which is displayed in Figure~\ref{fig:modeljudge_validation}. In the modeling view,
-the user has access to a textual description of the process, and a BPMN editor.
+view, which is displayed in Figure~\ref{fig:modeljudge_validation}. In the
+modeling view, the user has access to a textual description of the process, and
+a BPMN editor.
 
 During the exercise, students can use the \textbf{Validation} functionality to
 obtain aggregated diagnostics about the process model, for example, how many
-unnecessary activities it contains. A more detailed version is the \textbf{Complete
-  Validation}, which offers more fine-grained information about the diagnostics,
-such as the exact labels of the unnecessary activities in the process model.
+unnecessary activities it contains. A more detailed version is the
+\textbf{Complete Validation}, which offers more fine-grained information about
+the diagnostics, such as the exact labels of the unnecessary activities in the
+process model.
 
 Finally, for users that allow it during registration, analytics are enabled. The
 analytics functionality which is built into the platform periodically records
 snapshots of the student's process model for the duration of the validation
 session. Additional snapshots are created each time a user performs a
 \textit{validation} or \textit{complete validation}.
-Section~\ref{sec:modeljudge_results} describes the analysis perform on the
+Section~\ref{sec:modeljudge_results} describes the analysis performed on this
 analytics data.
 
 \begin{figure}[htb]
@@ -177,16 +183,13 @@ analytics data.
   \label{fig:modeljudge_validation}
 \end{figure}
 
-
-
-
-
 \section{Approach}
 \label{sec:modeljudge_approach}
 
 At the Model Judge's core, there is the algorithm that produces a list of
 diagnostics for their current business process model. The design and
-implementation of this algorithm was implemented as a part of this Master Thesis.
+implementation of this algorithm has been implemented as a part of this Master
+Thesis.
 
 In Figure~\ref{fig:modeljudge_overview}, we can see a BPMN diagram of the
 diagnostic generation process. The inputs to the system are the \emph{Textual
@@ -213,14 +216,13 @@ checked against a textual description by the \emph{diagnostics} module.
   \label{fig:modeljudge_overview}
 \end{figure}
 
-The next sections describe the multiple steps in Model Judge's algorithm
-in more detail. Section~\ref{sec:process_model_analysis} covers the analysis of
-the process model. In Section~\ref{sec:diagnostics_generation}, the necessary
-steps for obtaining the diagnostics are computed. Finally, the details behind
-the alignment of ATD and process models are discussed in
-Section~\ref{sec:aligning_atd_bpmn}.
-\todo{I don't like having alignment in its own section. However, the section is
-  too long to be put in a subsection instead.}
+The next sections describe the multiple steps in Model Judge's algorithm in more
+detail. Section~\ref{sec:process_model_analysis} covers the analysis of the
+process model. Next, Section~\ref{sec:new_annotation_types} covers the ATD
+extensions necessary to support Model Judge. In
+Section~\ref{sec:diagnostics_generation}, the necessary steps for obtaining the
+diagnostics are explained. Finally, the details behind the alignment of ATD and
+process models are discussed in Section~\ref{sec:aligning_atd_bpmn}. 
 
 \subsection{Process Model Analysis}
 \label{sec:process_model_analysis}
@@ -230,10 +232,10 @@ student. First, a \emph{behavioral profile} of the process is computed, in order
 to compare it to the one from the ATD during the alignment computation (See
 Section~\ref{sec:alignment_creation}). The computation of a \emph{behavioral
   profile} has well known algorithms and can be performed as long as the
-process' Petri net is \emph{bounded}\cite[Section IV.B]{murata1989petri}.
+process' Petri net is \emph{bounded} \cite[Section IV.B]{murata1989petri}.
 Analyzing a process model, thus, consists of three steps:
 \begin{enumerate}
-  \item Convert the BPMN process into a Petri Net, this somtimes results in
+  \item Convert the BPMN process into a Petri Net, this sometimes results in
     unbounded Petri nets.
   \item Check the boundedness of the resulting Petri net, only if the
     property is fulfilled, the next step is executed.
@@ -241,7 +243,7 @@ Analyzing a process model, thus, consists of three steps:
 \end{enumerate}
 
 The necessary operations to compute the behavioral profile are implemented in
-JBPT\cite{polyvyanyy2013towards}, a Java library consisting of several utilities
+JBPT \cite{polyvyanyy2013towards}, a Java library consisting of several utilities
 to manage business process models.
 
 The second step in Model Judge's analysis of process models is extracting
@@ -279,15 +281,15 @@ consider the most common types of labels:
         object} and additional complements. For example, ``Examine patient'' is
       a label in Verb-Object style.}
   \item[Action-Noun]{In this label style, the main action is represented as a
-      noun, and is usually preceeded by the business object. An example of this
+      noun, and is usually preceded by the business object. An example of this
       label style would be ``Patient examination''.}
   \item[Double-Action]{This is a compound structure, where two or more actions
-    are described in a signle label, using Verb-Object style. ``Examine Patient
+    are described in a single label, using Verb-Object style. ``Examine Patient
     and Request Sample'' could be an example label using that style.}
 \end{description}
 
-The grammar for the custom chart parser tries to ifentify any of the above
-structures, and is written un such a way that that the root node of the parse
+The grammar for the custom chart parser tries to identify any of the above
+structures, and is written in such a way that that the root node of the parse
 tree will be labeled with the identified writing style, if found. For example, a
 label written in the \emph{noun-action} style will have this information
 reflected at the root node of the tree. Using this grammar, the parsing is then
@@ -295,7 +297,7 @@ done as follows:
 
 \begin{enumerate}
   \item {The $n$ most likely PoS-tag sequences of the label are computed.}
-  \item {For each of the PoS taggings, the label is parsed using a chart
+  \item {For each PoS tagging, the label is parsed using a chart
         parser with the aforementioned context-free grammar.}
   \item {If some parse tree's root is tagged with one of the aforementioned
       writing styles, the grammar the \emph{action} and \emph{patient} (i.e.
@@ -307,7 +309,51 @@ done as follows:
     
 \end{enumerate}
 
+\subsection{ATD Exensions for Model Judge}
+\label{sec:new_annotation_types}
 
+In order to support the automatic evaluation of students, several extensions are
+included to the base language described in Chapter~\ref{cha:atd}. This
+extensions are in the form of specializations of the Action annotation type,
+which help better represent the semantics of the process for this particular
+use-case. For each annotation, multiple specializations are allowed. The
+descriptions in this section follow the running example from
+Figure~\ref{fig:running_example}.
+
+\begin{description}
+\item[Optional.]{An \emph{optional action} annotation is used to indicate that
+    the associated action could be elided from the process description without a
+    substantial change in its semantics. For instance, in the sentence
+    \emph{"the patient can leave"}, the action of \emph{leaving} 
+    could be considered as part of the process. However, that action does not
+    add a substantial amount of semantic value, and thus can be considered
+    \emph{optional}. In Model Judge, optional actions can be used by the
+    instructor to allow for a more flexible answer to the exercise, since both
+    the solution that contains the action and the one that does not will be
+    considered correct.}
+  
+\item[Ending.]{An \emph{ending action} annotation is used to represent an action
+    that ends the process. A process may have multiple ending actions to
+    represent multiple success or failure scenarios. In the previous sentence,
+    \emph{"the patient can leave"}, \emph{leave} is also an
+    \emph{ending action}, as well as \emph{prescribe} in \emph{"Finally, a
+      physician (...) prescribes the therapy"}. Ending actions in BPMN must
+    correspond, or immediately follow an end event. This information can be used
+    by Model Judge to derive its diagnostics.}
+
+\item[Implicit.]{Sometimes, action descriptions are not present as words in the
+    text but can be inferred. In Model Judge, this means that students are
+    supposed to introduce a task for which a description is not explicit in the
+    process. Since this sort of implicit description is not suited for automatic
+    analysis, our approach consists of adding additional text that makes the
+    inferred assumption explicit. This text, however, is only visible to the
+    instructor. An \emph{implicit action} annotation is used to highlight this
+    fact. In our example text, we can read \emph{"If the patient signs an
+      informed consent and  agrees to continue (...)"}. However, no explicit
+    mention is made as to what will happen in case the patient refused to sign
+    the informed consent.}
+\end{description}
+    
 \subsection{Diagnostics Generation}
 \label{sec:diagnostics_generation}
 
@@ -316,7 +362,9 @@ algorithm. The goal is to generate human-friendly diagnostics by identifying the
 differences between the ATD and the business process model. Most diagnostics can
 be computed a two granularity levels. Either at a general level --e.g. The
 process is missing \emph{some} activities--, or at a concrete level --e.g. The
-process is missing a label about the ``Patient Examination''--. The computation
+process is missing a label about the ``Patient Examination''--. The general
+level is used when performing an \emph{validation}, while the concrete
+diagnostics are only emitted for \emph{complete validations}. The computation
 of the diagnostics uses the information in the ATD, the analysed process model
 and the alignment between the two. In this section we detail which diagnostics
 are currently generated by Model Judge and how they are computed.
@@ -353,14 +401,14 @@ annotated textual description, the process model and the alignment.
 
 To detect that an \emph{activity is missing} from the process model, the alignment
 information is used. Particularly, if there is an action in the ATD with no
-correspondences from the process model, the activity is missing from the process
-model. The system can then inform the modeler by generating a detailed error
-message using the annotated data from the textual description.
+correspondences from the process model, the activity is considered missing from
+the process model. The system can then inform the modeler by generating a
+detailed error message using the annotated data from the textual description.
 
 Detecting \emph{unnecessary activities} also relies on the alignment. In this case,
 there will be a process model activity $p$ aligned to some ATD action $a$. If the
 similarity between $p$ and $a$ is low enough, according to the result of
-computing the predictor (as described in Section~\ref{sec:predictors}), the
+computing the predictor (as described later in Section~\ref{sec:predictors}), the
 activity is considered unnecessary, as there is no good match for the activity
 in the text.
 
@@ -372,14 +420,12 @@ previously described with activities.
 
 Finally, in order to detect \emph{control flow consistency}, we focus on the
 differences between the constrained and unconstrained alignment. Particularly,
-if the objective function (that is, the sum of correspondence similarities)
+if the objective function --that is, the sum of correspondence similarities--
 between the two alignments differs greatly, a warning is displayed to the user
 informing that the control flow in their process may be wrong. This careful
 phrasing is intended, since our testing has shown this method to not be
 completely reliable to detect subtle control flow errors, both in terms of
 false positives and false negatives.
-
-
 
 \section{Aligning ATD and BPMN Process Models}
 \label{sec:aligning_atd_bpmn}
@@ -393,16 +439,16 @@ correctly modeled by the student, according to the textual description.
 In order to achieve this goal, the technique presented in
 \cite{10.1007/978-3-319-59536-8_26} is used, which computes an alignment from
 process model activities to a textual description's sentences. The most
-important adaptation is the alignment input, which now considers the ATD's
-\emph{annotations}s instead of the plain sentences. In order to achieve this
-goal, the \texttt{atd2fl} and \texttt{atd2bp} modules from \emph{ATDlib} are
-used, in order to accurately transform the input text to a \emph{FreeLing}'s
-semantic graph and \emph{behavioral profile}, which is the original expected
-input of the alignment algorithm.
+important adaptation for Model Judge is the alignment input, which now considers
+ATD's \emph{annotations}s instead of the plain sentences. In order to
+achieve this goal, the \texttt{atd2fl} and \texttt{atd2bp} modules from
+\emph{ATDlib} are used to accurately transform the input text to a
+\emph{FreeLing}'s semantic graph and \emph{behavioral profile}, which are the
+original expected inputs of the alignment algorithm.
 
 Figure~\ref{fig:alignment_overview} shows an overview of the alignment approach
 presented in \cite{10.1007/978-3-319-59536-8_26}. Next, we cover each of the
-steps in the algorithm, and the necessary addaptations that were performed to
+steps in the algorithm, and the necessary adaptations that were performed to
 use the algorithm as part of Model Judge:
 
 \begin{figure}[htb]
@@ -413,14 +459,12 @@ use the algorithm as part of Model Judge:
 \end{figure}
 \subsection{Feature Extraction}
 
-%WIL: OVERVIEW FIGURE
-
-In order to establish a distance metric for two essentially different sources, such as
-an ATD and a BPMN Process Model, the elements in the two representations are
-converted into a canonical representation, the \emph{Feature Vector}. Feature
-vectors are extracted for each $Action$ or $Condition$ in the ATD, and each
-\emph{process element} (i.e. \emph{activity}, \emph{gateway} or \emph{event}) in
-the business process model
+In order to establish a distance metric for two essentially different sources,
+such as an ATD and a BPMN Process Model, the elements in the two representations
+are converted into a canonical representation, the \emph{Feature Vector}.
+Feature vectors are extracted for each $Action$ or $Condition$ in the ATD, and
+each \emph{process element} (i.e. \emph{activity}, \emph{gateway} or
+\emph{event}) in the business process model
 
 A feature vector $v \in \mathbb{R}^\infty$ is a sparse real vector computed in
 an infinite dimensional space. Each of the dimensions of the space correspond to
@@ -464,7 +508,7 @@ certain linguistic feature:
            target text if it contains a word\footnote{Note that in all feature
              types stopwords are not considered.} with the lemma $l$ and
            part-of-speech $pos$. In case of ATD, this would correspond to all
-           the words contained whithin the \emph{Action} and its related
+           the words contained within the \emph{Action} and its related
            \emph{Agent} and \emph{Patient} \emph{Entity} annotations, if any.
            This feature has a lower abstraction level than
            the previous ones and is included as a fall-back solution
@@ -486,7 +530,7 @@ certain linguistic feature:
 
        \item[$contains\_hypernym(s)$]{This feature is extracted from a target
            text containing a word for which $s$ is an hypernym\footnote{A word
-             $w_1$ is a \textit{hypernym} of $w_2$ iff $w_1$ describes a
+             $w_1$ is a \textit{hypernym} of $w_2$ if $w_1$ describes a
              superclass of $w_2$ (e.g. \textit{mammal} is a hypernym of
              \textit{cat}, and \textit{document} is a hypernym of
              \textit{letter}). Hypernymy is obtained from WordNet.} at distance
@@ -567,7 +611,7 @@ constraints. This problem can be solved in linear time where the \emph{ordering
   restrictions} are disabled, but becomes difficult when considering them. For
 the latter case, we modelled the problem as an ILP optimization, which was found
 to be fast enough for the use case of student evaluation\footnote{Using the
-  Gurobi\cite{gurobi} ILP solver, an answer from the optimization can be found
+  Gurobi \cite{gurobi} ILP solver, an answer from the optimization can be found
   in less than a second, thus, the NLP analysis becomes the bottleneck of the
   process}.
 
@@ -589,19 +633,19 @@ following inconsistencies may result in an alignment that is incorrect:
   \item The order in which the activities are described in the model 
 \end{enumerate}
 
-Model Judge works by considering the alignment in order to generate
-its diagnostics corresponding to points \emph{1} and \emph{2}. This is explained
-in further detail in Section~\ref{sec:diagnostics_generation}. However, the
-alignment computed at this point is not sufficient to determine which
-unnecessary activities the student introduced. The similarity scores of the
-correspondences are higly valuable indicators in order to detect this
-information. Because of that, we introduce a refinement step after the alignment
-which consists in applying a threshold on the similarity function, to discard
-the correspondences with very low similarity from the process.
+Model Judge works by considering the alignment in order to generate its
+diagnostics corresponding to points \emph{1} and \emph{2}, as seen in
+Section~\ref{sec:diagnostics_generation}. However, the alignment computed at
+this point is not sufficient to determine which unnecessary activities the
+student introduced. The similarity scores of the correspondences are highly
+valuable indicators in order to detect this information. Because of that, we
+introduce a refinement step after the alignment which consists in applying a
+threshold on the similarity function, to discard the correspondences with very
+low similarity from the process.
 
 In the refinement step, instead of applying the threshold directly to the
 similarity function, we introduce the concept of \emph{predictors}. A predictor
-is a function of the correspondences in the alignment which assigns a likelyhood
+is a function of the correspondences in the alignment which assigns a likelihood
 value of that correspondence being valid (i.e. not unnecessary). This value will
 be always in the interval $[0,1]$, but does not represent a probability. In our
 approach, we defined the following predictors:
@@ -624,18 +668,13 @@ The choice of predictors is greatly influenced by the similarity function. In
 our approach, the similarity function uses the \emph{Weighted Overlapping Index}
 and thus is contained in $[0,1]$. However, in practice, we have observed that
 depending on how different is the level of verbosity in the text and model, the
-similarity functions will vary overall. This motivates the coice for a relative
+similarity functions will vary overall. This motivates the choice for a relative
 predictor, which won't be affected by the differences of the discourse in the ATD and
 process model. However, using a relative predictor alone like \textit{p-rel-S} would
 fail in the event that all the activities introduced by the user are
 unnecessary. In order to have a predictor that is robust to such scenarios, we
 take the harmonic mean between \textit{p-rel-S} and \textit{p-sim}, using
 \textit{p-harm} as the predictor for Model Judge
-
-
- 
-
-
 
 \section{Experiments}
 \label{sec:modeljudge_results}
@@ -649,15 +688,28 @@ In order to validate how the Model Judge helps novice modelers, we performed two
 
 \subsection{Analysis of the Modeling Session Data}
 \label{sec:data_analysis}
-There were substantial differences in the setting of the two courses. On the DTU course, students were allowed to complete the exercise at home without a time limit. On the other hand, the UCSM course consisted in two exercises that had to be completed in a two-hour session.
-%Additionally, in first UCSM exercise, the students were discouraged to use the complete validation functionality until the end of the exercise.
+There were substantial differences in the setting of the two courses. On the DTU course, students were allowed to complete the exercise at home without a time limit. On the other hand, the UCSM course consisted in two exercises that had to be completed in a two-hour session. %Additionally, in first UCSM exercise, the students were discouraged to use the complete validation functionality until the end of the exercise.
 Additionally, some technical issues affecting DTU students were corrected before the UCSM course. Despite the differences, we believe the information recorded is still relevant for the analysis we present in this session. 
 %However, we believe a better controlled experiment would be necessary in order to draw more statistically robust conclusions.
 %\todo{[JS: Please check the above paragraph.]}
 
-% For the students that allowed the recording of their data for research purposes 
-For every student, we stored periodically (every minute) information for the whole modeling session. Additionally, information was also saved each time the user performed a simple or complete validation. In particular, we recorded a total of 8410 intermediate models for 72 students. For the snapshots, we stored: \textit{(i)} A unique user identifier. \textit{(ii)} The process model in BPMN (XML) format. \textit{(iii)} The timestamp of the snapshot. \textit{(iv)} The type of information: automatic, validation or complete validation. \textit{(v)} The validation results of our tool for the particular process model. Note that the validation results were computed for all snapshots, despite the students only seeing the ones they explicitly requested. 
-After the modeling course ends, we analyzed the snapshots with the aim of observing the evolution of the number of validation errors during the modeling sessions. The dataset used to perform this analysis can be found in the following address: \texttt{\url{http://www.cs.upc.edu/~pads-upc/ModelJudgeData.zip}}.
+For every student\footnote{We did not record information for those students that
+  didn't opt-in to the analytics}, we periodically stored (every minute)
+information for the whole modeling session. Additionally, the same information
+was also saved each time the user performed a simple or complete validation. In
+particular, we recorded a total of 8410 intermediate models for 72 students. For
+the snapshots, we stored: \textit{(i)} A unique user identifier. \textit{(ii)}
+The process model in BPMN (XML) format. \textit{(iii)} The timestamp of the
+snapshot. \textit{(iv)} The type of information: automatic, validation or
+complete validation. \textit{(v)} The validation results of our tool for the
+particular process model. Note that the validation results were computed for all
+snapshots, despite the students only seeing the ones they explicitly requested.
+
+After the end of modeling course, we analyzed the snapshots with the aim of
+observing the evolution of the number of validation errors during the modeling
+sessions. The dataset used to perform this analysis can be found in the
+following address:
+\texttt{\url{http://www.cs.upc.edu/~pads-upc/ModelJudgeData.zip}}.
 
 \subsubsection{Modeling Behaviours}
 
@@ -715,17 +767,45 @@ An instructor can have a good summary of the student evolution by looking at the
 
 \newcommand{\expnumber}[2]{{#1}\mathrm{e}{#2}}
 
-We analyzed how the frequency of different diagnostics varies during the session. Figure~\ref{fig:error_evolution} shows the evolution of the average amount of diagnostics for all students, per diagnostic type. To better observe the relative behaviour of each type regardless of the amount of diagnostics in the category, we plot the values relative to the maximum of each category. We have encountered substantial differences between diagnostic types. 
-Missing Activity diagnostics decrease as the session advances, since less activities will be missing as the modeling session progresses.
-Unnecessary Activity and Double Action Writing Style increase for the first half of the session, then decrease. This behavior is consistent with the fact that most students do not start using the complete validation feature until the second half of the session. The more detailed feedback of the complete validation then helps them finding the more subtle errors in their process model.
+We analyzed how the frequency of different diagnostics varies during the
+session. Figure~\ref{fig:error_evolution} shows the evolution of the average
+amount of diagnostics for all students, per diagnostic type. To better observe
+the relative behaviour of each type regardless of the amount of diagnostics in
+the category, we plot the values relative to the maximum of each category. We
+have encountered substantial differences between diagnostic types.
 
+Missing Activity diagnostics decrease as the session advances, since less
+activities will be missing as the modeling session progresses.
 
-The remaining diagnostic types have an oscillatory behaviour, but still increase for the duration of the session. This can be explained by the fact that, as the model session progresses, there is a greater chance of a student introducing an error leading to one of these diagnostics. However, the drops after 75\% progress could indicate that some students delay the correction of this errors until the end of the modeling session.
+Unnecessary Activity and Double Action Writing Style increase for the first half
+of the session, then decrease. This behavior is consistent with the fact that
+most students do not start using the complete validation feature until the
+second half of the session. The more detailed feedback of the complete
+validation then helps them finding the more subtle errors in their process
+model.
+
+The remaining diagnostic types have an oscillatory behaviour, but still increase
+for the duration of the session. This can be explained by the fact that, as the
+model session progresses, there is a greater chance of a student introducing an
+error leading to one of these diagnostics. However, the drops after 75\%
+progress could indicate that some students delay the correction of this errors
+until the end of the modeling session.
+
 
 %-------------------
 \subsubsection{Lifetime of the Diagnostics}
-To get a deeper insight into the modeling session data, we computed the lifetime of the diagnostics given to the students. We define the diagnostic lifetime as the elapsed time between the moment a student introduces a mistake in the model, and the moment that mistake is corrected. Note that this metric is independent of the validations made by the student, since diagnostics are computed for all snapshots regardless of the student used the validation function or not.
-The average lifetimes follow a long-tailed distribution (Figure~\ref{fig:avg_lifetime_distribution}). That is, in the average case mistakes are quickly corrected by the students. However, for a few cases, it can take a very long time to solve those mistakes. 
+To get a deeper insight into the modeling session data, we computed the lifetime
+of the diagnostics given to the students. We define the diagnostic lifetime as
+the elapsed time between the moment a student introduces a mistake in the model,
+and the moment that mistake is corrected. Note that this metric is independent
+of the validations made by the student, since diagnostics are computed for all
+snapshots regardless of the student used the validation function or not.
+
+The average lifetimes follow a long-tailed distribution
+(Figure~\ref{fig:avg_lifetime_distribution}). That is, in the average case
+mistakes are quickly corrected by the students. However, for a few cases, it can
+take a very long time to solve those mistakes.
+
 
 %An instructor can use the  information provided in Table~\ref{tab:avg_lifetimes} with several purposes, e.g., to 
 %try to improve students understanding of the long-lasting mistakes.
@@ -753,15 +833,16 @@ The average lifetimes follow a long-tailed distribution (Figure~\ref{fig:avg_lif
 %\label{tab:avg_lifetimes}
 %\end{table}
 
-
-
-
-
-
-
 \subsubsection{Relation of Number of Validations and Errors}
 
-Finally, we studied whether there was a correlation between the number of validations performed by the students, and the number of bad diagnostics obtained. To that end, we performed a Pearson's correlation test on the following variables, measured for each modeling session: $V_s =$ ``Number of validations'', $V_c =$ ``Number of \textbf{complete} validations'', $D_{avg} =$ ``Average number of bad diagnostics during the modeling session'', $D_{end} =$ ``Number of bad diagnostics at the end of the exercise''.
+Finally, we studied whether there was a correlation between the number of
+validations performed by the students, and the number of bad diagnostics
+obtained. To that end, we performed a Pearson's correlation test on the
+following variables, measured for each modeling session: $V_s =$ ``Number of
+validations'', $V_c =$ ``Number of \textbf{complete} validations'', $D_{avg} =$
+``Average number of bad diagnostics during the modeling session'', $D_{end} =$
+``Number of bad diagnostics at the end of the exercise''.
+
 \begin{table}
 {\scriptsize
 \begin{tabular}{l|c c c| c c c }
@@ -777,26 +858,49 @@ $V_c$ \textasciitilde $D_{end}$ & -0.219 & -0.406 & -0.397 & $3.85\times10^{-2}$
 \caption{Pearson's correlation test results for the relevant pairs of studied variables (shown per course and total).}
 \label{tab:correlations}
 \end{table}
-Besides the obvious correlations $V_c$ \textasciitilde $V_s$ and $D_{avg}$ \textasciitilde $D_{end}$, we also found strong negative correlations between the two pairs of variables, as seen in Table~\ref{tab:correlations}. That is, when the number of validations grows, the number of errors decreases. While all the correlations were statistically significant, we can see how the ones concerning the number of complete validations are weaker than the other two. %This can be explained by the fact that a subgroup of students were told to perform exactly one complete validation. %in one of the exercises. 
-This can be explained by the fact that a large group of students did not use the complete validation, or did so only at the end of the session without addressing the feedback, while almost all students used the simple validation.
-Additionally, we observed that the correlations found for the individual courses are less strong than considering the 72 students as one group.  
 
-% \todo{[JS: I don't think we should draw very strong conclusions here. The fact that there is a correlation between the number of errors and the number of validations only indicates that the tool \textbf{may} (correlation != causation) help students achieve less errors. However, the statement that our feedback helps the students make better models cannot be drawn from this. The reader has to believe our feedback is accurate and useful (which is, more or less, backed by the surveys) for this correlation to indicate something good. If our feedback were to be counter-productive to model quality, the same correlation would indicate that our tool helps students achieve worse models.]}
-
+Besides the obvious correlations $V_c$ \textasciitilde $V_s$ and $D_{avg}$
+\textasciitilde $D_{end}$, we also found strong negative correlations between
+the two pairs of variables, as seen in Table~\ref{tab:correlations}. That is,
+when the number of validations grows, the number of errors decreases. While all
+the correlations were statistically significant, we can see how the ones
+concerning the number of complete validations are weaker than the other two.
+% This can be explained by the fact that a subgroup of students were told to
+% perform exactly one complete validation. %in one of the exercises.
+This can be explained by the fact that a large group of students did not use the
+complete validation, or did so only at the end of the session without addressing
+the feedback, while almost all students used the simple validation.
+Additionally, we observed that the correlations found for the individual courses
+are less strong than considering the 72 students as one group.
 
 
 \subsection{Student Survey}
 \label{sec:questionaires}
 
-In the survey, the students were asked demographical information, native language and line of work, as well as their degree of agreement on some aspects of the application with four questions, aimed at independently evaluating the accuracy and usefulness of the validation and complete validation functionalities. Finally, the students also were asked to write down any complaints and/or improvement suggestions.
-% \todo{[JS: I found no interesting correlations with the demographic information so I left it out. Should we include it anyway?]}
+In the survey, the students were asked demographic information, native
+language and line of work, as well as their degree of agreement on some aspects
+of the application with four questions, aimed at independently evaluating the
+accuracy and usefulness of the validation and complete validation
+functionalities. Finally, the students also were asked to write down any
+complaints and/or improvement suggestions.
+
 Figure~\ref{fig:survey-results} shows the results of the survey: 
-%As we can see from the results, 
-a majority ($75.4\%$ in average) of students either agreed or strongly agreed in all questions. So we can say that the general perception is that using our framework was beneficial to the students. 
-%\todo{[JS: Should we add that the instructors have also found the models to be of better quality with respect to previous years?]}.
+A majority ($75.4\%$ in average) of students either agreed or strongly agreed in
+all questions. So we can say that the general perception is that using Model Judge
+was beneficial to the students.
 
-When looking separately at the questions regarding \emph{usefulness} versus the ones regarding \emph{accuracy}, we can see a difference, with the students having a stronger level of agreement with the usefulness ($84.0\%$ on average) than accuracy ($67.0\%$ on average). We can thus conclude the student's perception was that the tool was useful, but not as accurate. This can be validated from the student's written suggestions, where in some cases they complained about the tool not understanding their process model labels.
+When looking separately at the questions regarding \emph{usefulness} versus the
+ones regarding \emph{accuracy}, we can see a difference, with the students
+having a stronger level of agreement with the usefulness ($84.0\%$ on average)
+than accuracy ($67.0\%$ on average). We can thus conclude the student's
+perception was that the tool was useful, but not as accurate. This can be
+validated from the student's written suggestions, where in some cases they
+complained about the tool not understanding their process model labels.
 
-By comparing independently the results of the two modeling courses, we can see the students from DTU were more critical with the tool ($58.3\%$ on average either agreed or strongly agreed) than the ones from UCSM ($83.6\%$ on average). We believe this difference can be partly explained by the presence of some technical issues during the DTU modeling course that were fixed for the UCSM one.
 
-
+By comparing independently the results of the two modeling courses, we can see
+the students from DTU were more critical with the tool ($58.3\%$ on average
+either agreed or strongly agreed) than the ones from UCSM ($83.6\%$ on average).
+We believe this difference can be partly explained by the presence of some
+technical issues during the DTU modeling course that were fixed for the UCSM
+one.

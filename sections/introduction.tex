@@ -26,18 +26,18 @@ used to efficiently communicate the internal operations of a company.
 
 In the era of information systems and artificial intelligence, the
 focus of process models has progressively shifted from \textit{human readability} to
-\textit{machine readability}\cite{ter2009modern}. We have moved from the traditionally graphical
+\textit{machine readability} \cite{ter2009modern}. We have moved from the traditionally graphical
 models for business process documentation, such as the flow chart, to more
 formal standards built on top of machine-readable languages, like the Business
-Process Model and Notation (BPMN)\cite{chinosi2012bpmn} standard. This has
+Process Model and Notation (BPMN) \cite{chinosi2012bpmn} standard. This has
 enabled automation for the analysis and improvement of business processes, which
 in turn translates in real value for companies using these techniques.
 
 However, this formalization of the semantics of process models results in an
 increase in modeling languages' complexity, which in turn, results in
 non-experts --stakeholders and employees alike-- having difficulties in
-understanding the processes\cite{leopold2014supporting}. These misunderstandings may
-have serious consequences for any organization\cite{van2015fragmentation}
+understanding the processes \cite{leopold2014supporting}. These misunderstandings may
+have serious consequences for any organization \cite{van2015fragmentation}
 
 For the above reasons, no standard for process modeling has ultimately stood above
 the others. This has lead to a scenario where BPM-focused organizations often
@@ -45,7 +45,7 @@ have to maintain multiple representations of the same process model. Informal
 versions, which heavily rely on semi-structured or unstructured natural
 language, are kept next to more formal and structured alternatives. Furthermore,
 in this formal spectrum, we encounter several modeling languages, each one
-aiming to solve a different subset of problems\cite{10.1007/978-3-540-72035-5_7,
+aiming to solve a different subset of problems \cite{10.1007/978-3-540-72035-5_7,
  van2003workflow}.
 
 In this work, we propose an alternative to conventional process modeling
@@ -67,17 +67,21 @@ following activities:
 
 \subsection*{Formalization of ATD and its semantics}
 
+The goal of this task is the creation of a robust language with well defined
+semantics that is able to represent business processes based on annotated 
+natural language descriptions. 
+
 As part of this task, we have explored the common characteristics in business
-process descriptions, in order to identify what kind of information is relevant
-in this kind of documents.
+process descriptions, in order to identify the relevant types of information for
+the documents in our problem domain.
 
 Next, the identified concepts have been translated in terms of an annotation
-language: Annotations (or concepts), and the set of relations between them. 
+language: Annotations, and the set of relations between them. 
 
-Finally, due to the close relation between text annotations and ontologies, we
-have studied the possibility of mapping the concepts in ATD to some well known
-process description ontologies, such as the Process Specification
-Language\cite{gruninger2003process}.
+%Finally, due to the close relation between text annotations and ontologies, we
+%have studied the possibility of mapping the concepts in ATD to some well known
+%process description ontologies, such as the Process Specification
+%Language\cite{gruninger2003process}.
 
 \subsection*{Development of \emph{ATDlib} and Integration with Annotation Tools}
 
@@ -87,13 +91,13 @@ ATD process descriptions.
 
 The two main functionalities implemented in \emph{ATDlib} are the automatic
 generation of partial ATD from text and the translation between ATD and
-FreeLing\cite{PadroS12} document descriptions.
+FreeLing \cite{PadroS12} semantic graphs.
 
 In order to operationalize the workflow presented in this work for the
 generation of ATD, the functionalities presented in \emph{ATDlib} must be
 integrated into a graphical annotation tool. As part of this task, we explored
-two alternatives in the NLP field: Brat\cite{stenetorp2012brat} and TAG
-\cite{DBLP:journals/corr/abs-1711-00529}.
+two alternatives in the NLP field: Brat \cite{stenetorp2012brat} and TAG
+ \cite{DBLP:journals/corr/abs-1711-00529}.
 
 \subsection*{Design and Development of the \emph{Model Judge}'s Algorithm}
 
@@ -110,9 +114,8 @@ Denmark's Technical University (DTU) and the Universidad Catolica de Santa
 Mar\'ia (UCSM), in Peru, which used \emph{Model Judge} as the main
 modeling tool.
 
-This task consisted in the preprocessing and analysis of the analytics data
-collected from the platform.
-
+This task consisted in the preprocessing and analysis of the data collected from
+the platform.
 
 %\begin{itemize}
   %\item The formalization of the definition of ATD and its semantics.
@@ -138,18 +141,14 @@ collected from the platform.
 
 \section{Structure of this Document}
 
-The remainder of this document is structured as follows: Section~\ref{sec:scope}
-provides a detailed description of the scope of this Master Thesis as a set of
-objectives. Chapter~\ref{cha:background}, discusses the state of the art in 
-the several fields involved in this project and introduces all the necessary
-background concepts. Chapter~\ref{cha:atd} presents Annotated Textual
-Descriptions and discusses some of its theoretical applications in the field of
-Business Process Management. Chapter~\ref{cha:atdlib} presents the technical
-details behind the implementation of \emph{ATDlib}. Chapter~\ref{cha:modeljudge}
-describes the \emph{Model Judge} platform, a practical use case of ATD and
-offers an empirical evaluation of the platform with two real modeling courses.
-Finally, Chapter~\ref{cha:conclusions} concludes this thesis and discusses some
-possible future research lines.
-
-
-
+The remainder of this document is structured as follows:
+Chapter~\ref{cha:background}, discusses the state of the art in the several
+fields involved in this project and introduces all the necessary background
+concepts. Chapter~\ref{cha:atd} presents Annotated Textual Descriptions and
+discusses some of its theoretical applications in the field of Business Process
+Management. Chapter~\ref{cha:atdlib} presents the technical details behind the
+implementation of \emph{ATDlib}. Chapter~\ref{cha:modeljudge} describes the
+\emph{Model Judge} platform, a practical use case of ATD and offers an empirical
+evaluation of the platform with two modeling courses. Finally,
+Chapter~\ref{cha:conclusions} concludes this thesis and discusses some possible
+future research lines.

@@ -8,7 +8,7 @@
 \usepackage[pdftex, pdfborderstyle={/S/U/W 0}]{hyperref} % this disables the boxes around links
 \usepackage[]{import}
 \setlength{\parskip}{0.6em}
-\usepackage[style=numeric, sorting=nyt, backend=biber, maxnames=100]{biblatex}
+\usepackage[style=numeric, sorting=none, backend=biber, maxnames=100]{biblatex}
 \usepackage{todonotes}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -38,23 +38,30 @@
 
         \vspace{3.5cm}
 
-        \textsf{\textbf{Model-Agnostic Process Modeling}}
+        \textbf{Model-Agnostic Process Modeling}
 
         \vspace{3cm}
 
-        \textsf{\textbf{Master Thesis}}
+        \textbf{Master Thesis}
 
-        \textsf{\textbf{MIRI-DS}}
+        \vspace{1.8cm}
+
+        {\Large
+        \textbf{Master in Innovation and Research in Informatics}
+        \vspace{1cm}
+        \textbf{Data Mining and Business Intelligence}
+        }
 
         \vfill
         
-        \flushleft{
+        \flushright{
         \Large
-        \textsf{\textbf{Student:} Josep S\`anchez Ferreres\\
+        June 18th, 2018\\
+        \vspace{0.2cm}
+        \textbf{Student:} Josep S\`anchez Ferreres\\
         \textbf{Advisors:} Josep Carmona Vargas\\
-         ~~~~~~~~~~~~~~Llu\'is Padr\'o Cirera\\
+         Llu\'is Padr\'o Cirera~~~~~~\\
         %Facultat d'Informàtica Barcelona\\
-        June 18th de 2018}
         }
 
         \vspace{1cm}
@@ -75,7 +82,7 @@
 \begingroup
 \makeatletter
 %\listoffigures
-\chapter*{List of Figures and Tables}
+\chapter*{\vspace*{-2cm}List of Figures and Tables}
 \@starttoc{lof}
 \let\clearpage\relax
 %\listoftables
@@ -127,3 +134,9 @@
 
 
 \end{document}
+
+%%% Local Variables:
+%%%   mode: latex
+%%%   mode: flyspell
+%%%   ispell-local-dictionary: "english"
+%%% End:

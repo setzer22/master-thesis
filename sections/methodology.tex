@@ -5,8 +5,10 @@ In this chapter, we describe the use case of Annotated Textual
 Descriptions (ATD) in natural langauge to describe business processes.
 Section~\ref{sec:atd_running_example} presents a process model example that will be
 used throughout this document for illustrative purposes. Next,
-Section~\ref{sec:atd_atd} contains a rationale for ATD. Finally,
-Section~\ref{sec:atd_semantics} describes the semantics of the base ATD language.
+Section~\ref{sec:atd_atd} contains a rationale for ATD and 
+Section~\ref{sec:atd_semantics} describes the semantics of the base ATD
+language. Finally, Section~\ref{sec:atd_applications} describes possible
+theoretical applications of ATD.
 
 \section{Running Example}
 \label{sec:atd_running_example}
@@ -19,7 +21,7 @@ of this process is provided in Figure~\ref{fig:running_example}. Additionally,
 figure~\ref{fig:running_example_bpmn} shows the equivalent process model in a
 well-known process notation: BPMN.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 {%
 \setlength{\fboxsep}{6pt}
@@ -65,7 +67,7 @@ for the patient.
 In order to support the efficient creation and communication of business
 processes, we must establish notation that is close to the mental framework of
 all the actors involved in the process. Natural language is an ideal tool for
-this task, being the clear winner in human communication.
+this task, being the most widely used form of human communication.
 
 %However, natural language alone suffers from ambiguity, and its unstructured
 %nature makes automatic processing difficult and unreliable, despite all the
@@ -99,7 +101,7 @@ the text without the annotations, and can use the annotations to clarify any
 ambiguities encountered (e.g. whether two activities can be executed
 concurrently). On the other hand, a computer system can rely on the annotations
 to automatically extract structure and additional semantic information from the
-process, without the need to leverage a generic semantic graph\cite{PadroS12}.
+process, without the need to leverage a generic semantic graph~\cite{PadroS12}.
 The design goals of ATD can be summarized as follows:
 
 
@@ -116,10 +118,10 @@ The design goals of ATD can be summarized as follows:
     unclear parts of the process, resulting in too restrictive models that do
     not fully represent the reality of the organization. On the other hand, ATD
     are designed to capture the ambiguity by being built on an \emph{open
-      world assumption}: If a part of the process is not clearly documented, we
-    assume anything that happens is correct. This characterization of ambiguity
-    also allows to automatically detect and report the ambiguous elements in
-    order to improve the process.}
+      world assumption}: If a part of the process is not clearly documented,
+    anything that happens is assumed to be correct. This characterization of
+    ambiguity also allows to automatically detect and report the ambiguous
+    elements to the user in order to improve the process.}
 \item[Rich Semantics]{Since natural language is used as the main building block
     of ATD, any idea can be communicated with them. At the human level, the
     expressive power of the language is almost on par with the mental model of
@@ -130,17 +132,17 @@ The design goals of ATD can be summarized as follows:
     students.}
 \item[Low Representational Bias]{Representational bias is the phenomena where
     the notation being used forces the author of a process to model things in a
-    certain way\cite{van2011representational}. For example, notations based on
+    certain way~\cite{van2011representational}. For example, notations based on
     Petri Nets are well suited to model concurrency. However, there is no clear
     built-in mechanism to express the limits of iterative structures. This is
     why languages like BPMN have a built-in semantic element to model
     concurrency, the \emph{parallel gateway}, while loop conditions have to be
-    expressed as text notes, which cannot be interpreted by computer systems.
+    expressed as text notes which cannot be interpreted by computer systems.
     ATD, being close to the mental model of the actors involved in the process,
     have a low representational bias.}
 \item[Automation]{To ensure adoption of a new language, ease of use is a very
     important factor to consider. Models must be easy to build and redundant
-    constructs (i.e. \emph{boilerplate}) must be kept at a minimum. In ATD, the
+    constructs --i.e. \emph{boilerplate}-- must be kept at a minimum. In ATD, the
     provided tooling ensures that such redundant tasks are automated: On one
     hand, an NLP tool generates an initial annotation for the user to refine,
     which typically just consists of removing unnecessary annotations. On the
@@ -176,7 +178,7 @@ The design goals of ATD can be summarized as follows:
 \label{sec:atd_semantics}
 
 ATD are designed to be adaptable. In this section, we describe the base language
-which aims to represents the common concepts in all business processes.
+which aims to represent the common concepts in all business processes.
 Additionally, extensions are allowed in the form of new \emph{annotation} or
 \emph{relation} specializations, to support more specific use cases. An example
 of such expansion can be seen in Chapter~\ref{cha:modeljudge}.
@@ -191,7 +193,7 @@ natural language. More formally, we can define an ATD as a $\langle T, A, R \ran
 \begin{description}
 \item{$\mathbf{T}$}{ is a string of characters representing the textual description.}
 \item{$\mathbf{A}$}{ is a set of \emph{annotations}. Each annotation $\alpha =
-    \langle type, start, end, \rangle$ marks a relevant aspect of the business
+    \langle type, start, end \rangle$ marks a relevant aspect of the business
     process. The $start$ and $end$ integers mark the positions of a substring of
     T, and the $type$ is used to add semantics to the annotation. The types of
     annotations are defined as a hierarchy, so an annotation types can be specialized
@@ -199,7 +201,7 @@ natural language. More formally, we can define an ATD as a $\langle T, A, R \ran
 \item{$\mathbf{R}$}{ is a set of triples $\langle t, \alpha_i,
     \alpha_j \rangle$ representing binary relations of type $t$ between pairs of
     annotations $\alpha_i$, $\alpha_j$. Similarly, the $type$ of a relation is
-    used to add particular semantics to it, and especialization of relation
+    used to add particular semantics to it, and specialization of relation
     types is allowed.}
 \end{description}
 
@@ -276,10 +278,10 @@ map to some well-known concepts in the context of business processes.
 \begin{description}
 \item[Action.]{The \emph{action} annotation is used to represent the steps of the
     business process model, which are often associated with verbs. An example action
-    would be \emph{placing} ($\alpha_1$) an examiation order. Each action
+    would be \emph{placing} ($\alpha_1$) an examination order. Each action
     corresponds to a single activity in the process model.}
 \item[Entity.]{An anything that participates in the business process, either
-    actively or passively. This is a generic type that is especialized in two
+    actively or passively. This is a generic type that is specialized in two
     subtypes: \emph{role} and \emph{business object}.}
 \item[Role.]{A type of \emph{Entity}. The \emph{role} annotation is used to
     represent the autonomous actors involved in the process, like the
@@ -336,7 +338,7 @@ map to some well-known concepts in the context of business processes.
     to \emph{validates} ($\alpha_3$)}
 \item[Coreferences.]{An \emph{entity} is a coreference of another \emph{entity} when
     they refer to the same real world entity. The coreference relation forms a graph with
-    one connected component per process entity. All ocurrences of the "patient" role in the
+    one connected component per process entity. All occurrences of the "patient" role in the
     example text are coreferences. However, there are two different "physician" 
     roles in the text, the "outpatient physician" ($\alpha_4$, $\alpha_5$) and the 
     "physician of the lab" ($\alpha_{14}$), which form two disconnected coreference graphs.}
@@ -370,7 +372,7 @@ knowledge:
       transitive. This expanded relations are automatically inferred, so the
       user only needs to mark $n-1$ annotations to form a coreference group of
       $n$ entities.}
-  \item[Behavioral Profiles]{A behavioral profile\cite{smirnov2010business} is
+  \item[Behavioral Profiles]{A behavioral profile~\cite{smirnov2010business} is
       an abstract representation of the control flow of a process. The
       behavioral profile of a process is a function which, for every pair of
       elements in the process --i.e. places in a Petri net or activities in a
@@ -405,9 +407,10 @@ knowledge:
       reported to the user to quickly verify that all the relevant actors are
       represented in the process.}
 \end{description}
-\todo{Check if this can be expressed in any ontology language}
+%\todo{Check if this can be expressed in any ontology language}
 
 \section{Possible Applications of ATD}
+\label{sec:atd_applications}
 
 ATD have been designed as a form of process documentation. However, due to the
 unique way in which they capture process information in natural language, we
@@ -428,13 +431,14 @@ model notations:
       language description are disambiguated at annotation time. This implies a
       text can be annotated once and transformed to as many different
       representations as required.}
-  \item[For the Simulation of Textual Descriptions:]{Process \emph{simulation} consists
-      of generating an \emph{event log} that conforms to a Business Process
-      Model, usually using some statistical model. Thanks to the robustness
-      introduced by ATD over raw text, simulation tools can be built on top of
-      ATD, which would bring all the advantages of simulation (i.e. detection of
-      issues, such as \emph{bottlenecks}, before execution) to descriptions in
-      natural language, easily understandable by all implied roles.}
+  \item[For the Simulation of Textual Descriptions:]{Process \emph{simulation}
+      consists of generating an \emph{event log} that conforms to a Business
+      Process Model\cite{burattin2015plg2} assuming a certain statistical
+      model. Thanks to the robustness introduced by ATD over raw text,
+      simulation tools can be built on top of ATD, which would bring all the
+      advantages of simulation (i.e. detection of issues, such as
+      \emph{bottlenecks}, before execution) to descriptions in natural language,
+      easily understandable by all implied roles.}
   \item[As Training Data:]{ATD are based on text annotations, originally
       conceived to serve as training data for machine learning algorithms in
       NLP. By creating ATD, an organization doesn't only get the benefits of

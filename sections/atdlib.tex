@@ -2,14 +2,13 @@
 \label{cha:atdlib}
 
 This chapter presents \emph{ATDlib}, a reference implementation of the ATD
-langauge described in Chapter~\ref{cha:atd} which implements parsing, automatic
+language described in Chapter~\ref{cha:atd} which implements parsing, automatic
 generation and transformations of ATD. ATDlib is built using
-\emph{Clojure}\cite{Hickey:2008:CPL:1408681.1408682}, which is compatible with
-the Java virtual machine. An idiomatic Java wrapper is planned, but falls
-outside the scope of this project. Section~\ref{sec:architecture} focuses on the
-several tools provided in ATDlib and offers implementation details. Then,
-Section~\ref{sec:atdlib_tour} shows an overview of the process of creating an
-ATD from raw text data.
+\emph{Clojure}~\cite{Hickey:2008:CPL:1408681.1408682}, a dynamic language for the
+Java Virtual Machine and thus can be used from any language in the JVM
+ecosystem. Section~\ref{sec:architecture} focuses on the several tools provided
+in ATDlib and offers implementation details. Then, Section~\ref{sec:atdlib_tour}
+shows an overview of the process of creating an ATD from raw text data.
 
 \section{Features and Architecture}
 \label{sec:architecture}
@@ -22,33 +21,39 @@ functionalities:
 
 \begin{description}
   \item[Parsing and Representation of ATD]{ATD are stored as BRAT annotation
-      files in \emph{standoff format}\cite{brat_standoff}. The standoff format
+      files in \emph{standoff format}~\cite{brat_standoff}. The standoff format
       is a text-based file that represents \emph{annotations} and
-      \emph{relations} referencing a plain text file. Thus, an ATD will consist
-      of a \texttt{Process.txt} with the textual description and a complementary
-      \texttt{Process.ann} file with the annotations. ATDlib can parse this
-      format and convert it to its internal schema, exposed in a public
-      interface as shown in the UML diagram of Figure~\ref{fig:atdlib_uml}}
+      \emph{relations} which reference a plain text file. Therefore, an ATD will
+      consist of a \texttt{Process.txt} with the textual description and a
+      complementary \texttt{Process.ann} file with the annotations. ATDlib can
+      parse this format and convert it to its internal schema, exposed in a
+      public interface as shown in the UML diagram of
+      Figure~\ref{fig:atdlib_uml}}
   \item[Automatic Annotation]{ATDlib can perform an initial annotation of a raw
       text in natural language. The goal is to perform the most accurate
       annotations possible. However, due to limitations in NLP, the annotations
-      generated need to be reviewed by a human. Currently all annotation and
+      generated need to be currently reviewed by a human. All annotation and
       relation types described in Section~\ref{sec:atd_semantics} are generated
       except the \emph{sequential}, \emph{exclusive} and \emph{parallel}
       relations, which must be manually annotated.}
-  \item[Automatic Translation]{Several transformations are implemented for ATD
-      in order to generate other process representations that interface with
+  \item[Easy Manual Annotation]{One of the goals of ATDlib is to facilitate the
+      manual annotation of ATD in order to refine an automatically derived
+      annotation. Instead of implementing a custom annotation tool, we use
+      well-established tools from the NLP field in order to provide an
+      annotation front-end. For this project, we considered BRAT~\cite{stenetorp2012brat} and TAG~\cite{DBLP:journals/corr/abs-1711-00529}. 
+      Despite TAG having a more rich feature set, ultimately we chose BRAT due
+      to its more mature implementation and documentation availability.}
+  \item[Automatic Translation]{Several transformations are implemented in ATDlib
+      in order to convert ATD to other process representations that interface with
       existing software. The goal is to establish ATD as a unique language for
       which any other representation can be automatically derived. These
       transformations can then be implemented as additional modules in ATDlib.
       Currently, the implemented transformations are to convert ATD into a
-      FreeLing\cite{PadroS12} \emph{semantic graphs} and a \emph{behavioral
-        profiles}\cite{smirnov2010business}}
-    
+      FreeLing~\cite{PadroS12} \emph{semantic graphs} and a \emph{behavioral
+        profiles}~\cite{smirnov2010business}}
 \end{description}
 
-
-ATDlib is structured as a single java library with several entry points,
+ATDlib is structured as a single library with several entry points,
 corresponding to its different modules. Figure~\ref{fig:atdlib_architecture}
 shows an overview of the different entry points, and their main functionalities.
 The \texttt{brat\_parser} module is intended to be used as a library, and can be
@@ -57,7 +62,7 @@ entry point can be used as a standalone tool or as a library, and converts
 textual descriptions into partially annotated ATD, which should then be checked
 by a human using any compatible annotation tool, such as BRAT. Finally, the
 \texttt{atd2fl} and \texttt{atd2bp} modules can be used as libraries to extract
-a FreeLing semantic graph and a behavioral provile respectively. The inference
+a FreeLing semantic graph and a behavioral profile respectively. The inference
 rules described in Section~\ref{sec:atd_reasoning} are applied during the
 transformations. As mentioned in Section~\ref{sec:background_nlp4bpm}, the
 semantic graph and the behavioral profiles can then be applied directly as input
@@ -79,8 +84,7 @@ data to the algorithms in the \emph{NLP4BPM} project.
 \end{figure}
 
 \subsection{Converting ATD to Freeling Semantic Graphs}
-
-\todo{cross-reference this section above}
+\label{sec:atd2fl}
 
 ATD and Freeling semantic graphs hold very similar information. Given the
 graph-based nature of both representations, this conversion can be thought of as
@@ -90,7 +94,7 @@ the algorithms in the \emph{NLP4BPM} project, which is one the main application 
 this library.
 
 The conversion performed by the \texttt{atd2fl} module consists of
-translating the concepts in ATD to a semantic graph, which consistis of the
+translating the concepts in ATD to a semantic graph, which contains the
 following information:
 
 \begin{itemize}
@@ -167,4 +171,3 @@ semantic graph using the \texttt{atd2fl} module.
   \caption{Workflow of the creation of an ATD using ATDlib}
   \label{fig:atdlib_process}
 \end{figure}
-
